@@ -1,0 +1,2 @@
+# howto: https://coderwall.com/p/djrfra
+export $(cat .env)
