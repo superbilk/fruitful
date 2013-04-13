@@ -1,12 +1,9 @@
+# http://blog.crowdint.com/2011/04/06/sinatra-haml-compass-blueprint.html
+# https://github.com/davidklaw/foundation-sinatra
+
 require 'bundler/setup'
 Bundler.require(:default)
 
-configure do
-  # set :sessions, true
-  # set :logging, true
-  # set :environment, :production
-end
+require  File.dirname(__FILE__) + "/app.rb"
 
-require './app'
-
-run App.new
+run App

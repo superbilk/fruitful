@@ -1,5 +1,8 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'sinatra'
 gem 'bundler'
+gem 'sinatra'
+gem 'compass'
 gem 'haml'
+gem 'zurb-foundation'
+gem 'sinatra-partial'
