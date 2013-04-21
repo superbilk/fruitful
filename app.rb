@@ -18,11 +18,13 @@ class App < Sinatra::Base
     enable :sessions
   end
 
-  configure :development do
+  configure :development, :test do
     DataMapper.auto_upgrade!
   end
 
   configure :production do
+    set :environment, ENV['RACK_ENV'].to_sym
+    disable :run, :reload
     DataMapper.auto_migrate!
   end
 
