@@ -1,7 +1,7 @@
 require "rvm/capistrano"
 require 'capistrano_colors'
 require "bundler/capistrano"
-require 'capistrano-file_db'
+# require 'capistrano-file_db'
 
 set :application, "fruitful"
 set :repository,  "git@github.com:superbilk/#{application}.git"
