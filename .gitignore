@@ -1,4 +1,5 @@
 /tmp/*
+/db/*
 
 !.gitkeep
 
@@ -6,4 +7,3 @@
 .tags
 .tags_sorted_by_file
 
-/db/*
