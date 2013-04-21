@@ -1,9 +1,13 @@
 .row
-  .small-6.small-centered.columns
-    %h1
-      Was your day successful?
+  .large-6.large-centered.columns
+    %h2
+      Would you call this a successful day?
     %ul.small-block-grid-1
       %li
-        %a.large.button.expand.success{:href => ""} YES
+        %a.large.button.expand.success#up YES
       %li
-        %a.large.button.expand.alert{:href => ""} NOPE
+        %a.large.button.expand.alert#down NO
+#result.reveal-modal
+  %h2 Awesome.
+  %p.lead Thank you for your participation.
+  %a.close-reveal-modal ×

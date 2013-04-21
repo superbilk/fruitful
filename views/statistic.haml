@@ -1,0 +1,20 @@
+%h1 Statistic
+
+%table
+  %thead
+    %tr
+      %th ID
+      %th Vote
+      %th created_at
+      %th updated_at
+  %tbody
+  - @votes.each do |vote|
+    %tr
+      %td
+        = vote.id
+      %td
+        = vote.vote
+      %td
+        = vote.created_at
+      %td
+        = vote.updated_at
