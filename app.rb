@@ -13,7 +13,7 @@ class App < Sinatra::Base
     enable :sessions
   end
 
-  DataMapper::Logger.new($stdout, :debug)
+  # DataMapper::Logger.new($stdout, :debug)
   DataMapper.finalize
 
   configure :development, :test do
@@ -25,8 +25,8 @@ class App < Sinatra::Base
 
   configure :production do
     DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/db/production.sqlite3")
-    disable :run, :reload
     DataMapper.auto_upgrade!
+    disable :run, :reload
   end
 
   get "/" do

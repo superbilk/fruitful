@@ -3,6 +3,8 @@ require 'capistrano_colors'
 require "bundler/capistrano"
 require 'capistrano-file_db'
 
+load "config/recipes/rake"
+
 set :application, "fruitful"
 set :repository,  "git@github.com:superbilk/#{application}.git"
 
