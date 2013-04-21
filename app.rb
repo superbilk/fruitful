@@ -6,11 +6,6 @@ Dir.glob(File.join("{lib,models,controllers}", "*.rb")).each{|f| require File.re
 class App < Sinatra::Base
   register Sinatra::Partial
 
-  DataMapper::Logger.new($stdout, :debug)
-  DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/db/development.sqlite3")
-  DataMapper.finalize
-  # DataMapper.auto_migrate!
-
   configure do
     set :haml, :format => :html5
     enable :partial_underscores
@@ -18,12 +13,16 @@ class App < Sinatra::Base
     enable :sessions
   end
 
+  DataMapper::Logger.new($stdout, :debug)
+  DataMapper.finalize
+
   configure :development, :test do
+    DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/db/development.sqlite3")
     DataMapper.auto_upgrade!
   end
 
   configure :production do
-    set :environment, ENV['RACK_ENV'].to_sym
+    DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/db/production.sqlite3")
     disable :run, :reload
     DataMapper.auto_migrate!
   end
