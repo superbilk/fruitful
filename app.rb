@@ -19,12 +19,14 @@ class App < Sinatra::Base
   configure :development, :test do
     DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/db/development.sqlite3")
     DataMapper.auto_upgrade!
+    # this deletes all data:
+    # DataMapper.auto_migrate!
   end
 
   configure :production do
     DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/db/production.sqlite3")
     disable :run, :reload
-    DataMapper.auto_migrate!
+    DataMapper.auto_upgrade!
   end
 
   get "/" do
