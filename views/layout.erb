@@ -28,7 +28,7 @@
     <div class="small-12 columns small-centered text-center">
       <hr />
         <p>Delivering Happiness since 2012. Powered by Sinatra. Crafted with Sublime Text. ♡.</p>
-        <p><small>env:<%= settings.environment %>|votes:<%= Vote.count %></small></p>
+        <p><small>env:<%= settings.environment %>|votes:<span id="votes_count"><%= Vote.count %></span></small></p>
     </div>
   </footer>
 

@@ -44,4 +44,9 @@ class App < Sinatra::Base
     haml :statistic, :layout_engine => :erb
   end
 
+  get "/votes_count.json" do
+    content_type :json
+    Vote.count.to_json
+  end
+
 end

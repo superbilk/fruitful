@@ -33,8 +33,18 @@ $(document).ready(function () {
   function removeResultAlert(){
     $('#result').foundation('reveal', 'close');
   };
+
+  // remove URL bar from mobile devices
+  /mobile/i.test(navigator.userAgent) && !window.location.hash && setTimeout(function () {
+    window.scrollTo(0, 1);
+  }, 500);
+
+  setInterval(function () {
+    $.getJSON("votes_count.json", function(data) {
+      $("#votes_count").text(data);
+    });
+  }, 5000);
+
+
 });
 
-/mobile/i.test(navigator.userAgent) && !window.location.hash && setTimeout(function () {
-  window.scrollTo(0, 1);
-}, 500);

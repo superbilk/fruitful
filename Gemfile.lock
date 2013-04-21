@@ -91,6 +91,7 @@ DEPENDENCIES
   dm-timestamps
   dm-validations
   haml
+  json
   sinatra
   sinatra-partial
   zurb-foundation
