@@ -19,7 +19,11 @@ class App < Sinatra::Base
   end
 
   configure :development do
-      DataMapper.auto_upgrade!
+    DataMapper.auto_upgrade!
+  end
+
+  configure :production do
+    DataMapper.auto_migrate!
   end
 
   get "/" do
