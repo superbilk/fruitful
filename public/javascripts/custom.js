@@ -3,18 +3,22 @@ $(document).ready(function () {
   $("a#up").click(function(){
     $("a").addClass("disabled");
     $('#resultmodal').foundation('reveal', 'open');
-    $.post("/up");
+    var path = window.location.pathname;
+    var account = path.substr(1, path.length);
+    $.post("/up", {url: account});
     enableButtonsDelayed(5);
-    removeResultAlertDelayed(4);
+    removeResultAlertDelayed(2);
     return false;
   });
 
   $("a#down").click(function(){
     $("a").addClass("disabled");
     $('#resultmodal').foundation('reveal', 'open');
-    $.post("/down");
+    var path = window.location.pathname;
+    var account = path.substr(1, path.length);
+    $.post("/down", {url: account});
     enableButtonsDelayed(5);
-    removeResultAlertDelayed(4);
+    removeResultAlertDelayed(2);
     return false;
   });
 
@@ -55,10 +59,10 @@ $(document).ready(function () {
   }, 500);
 
   setInterval(function () {
-    $.getJSON("votes_count.json", function(data) {
+    $.getJSON("/votes_count.json", function(data) {
       $("#votes_count").text(data);
     });
-    $.getJSON("accounts_count.json", function(data) {
+    $.getJSON("/accounts_count.json", function(data) {
       $("#accounts_count").text(data);
     });
   }, 5000);

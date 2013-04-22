@@ -32,25 +32,29 @@ class App < Sinatra::Base
   end
 
   before do
-
+    @account = Account.new(:name => "Sample User", :url => "")
   end
 
   get "/" do
-    @account = Account.new(:name => "Sample User", :url => "")
     haml :index, :layout_engine => :erb
   end
 
   post "/up" do
-    Vote.create(:vote => 1)
+    @account = Account.first(:url => URI.escape(params[:url]))
+    vote = Vote.new(:vote => 1)
+    vote.account = @account
+    vote.save
   end
 
   post "/down" do
-    Vote.create(:vote => -1)
+    @account = Account.first(:url => URI.escape(params[:url]))
+    vote = Vote.new(:vote => -1)
+    vote.account = @account
+    vote.save
   end
 
   get "/statistic" do
-    @account = Account.new(:name => "Sample User", :url => "")
-    @votes = Vote.all(:order => [ :created_at.desc ])
+    @votes = Vote.all(:account_id => nil, :order => [ :created_at.desc ])
     haml :statistic, :layout_engine => :erb
   end
 
@@ -67,12 +71,12 @@ class App < Sinatra::Base
   get "/:url/statistic" do |url|
     @account = Account.first(:url => url)
     redirect to('/') if @account.nil?
-    @votes = Vote.all(:order => [ :created_at.desc ])
+    @votes = Vote.all(:account_id => @account.id, :order => [ :created_at.desc ])
     haml :statistic, :layout_engine => :erb
   end
 
   get "/:url/new" do |url|
-    @account = Account.create(:url => url, :name => url)
+    @account = Account.create(:url => URI.escape(url), :name => URI.escape(url))
     redirect to("/#{url}")
   end
 

@@ -5,6 +5,7 @@
     %tr
       %th ID
       %th Vote
+      %th Account
       %th created_at
       %th updated_at
   %tbody
@@ -14,6 +15,8 @@
         = vote.id
       %td
         = vote.vote
+      %td
+        = vote.account.name unless vote.account.nil?
       %td
         = vote.created_at
       %td

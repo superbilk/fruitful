@@ -5,4 +5,6 @@ class Account
   property    :url,  String, :unique => true
   property    :name, String
   timestamps  :at
+
+  has n, :votes
 end
