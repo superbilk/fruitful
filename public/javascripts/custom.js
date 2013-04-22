@@ -8,7 +8,7 @@ $(document).ready(function () {
       return false;
     }
     $("a").addClass("disabled");
-    $('#resultmodal').foundation('reveal', 'open');
+    $('#resultmodalpositive').foundation('reveal', 'open');
     $.post("/up", {url: getAccountName()});
     enableButtonsDelayed(5);
     removeResultAlertDelayed(2);
@@ -20,7 +20,7 @@ $(document).ready(function () {
       return false;
     }
     $("a").addClass("disabled");
-    $('#resultmodal').foundation('reveal', 'open');
+    $('#resultmodalnegative').foundation('reveal', 'open');
     $.post("/down", {url: getAccountName()});
     enableButtonsDelayed(5);
     removeResultAlertDelayed(2);
@@ -55,7 +55,8 @@ $(document).ready(function () {
   };
 
   function removeResultAlert(){
-    $('#resultmodal').foundation('reveal', 'close');
+    $('#resultmodalpositive').foundation('reveal', 'close');
+    $('#resultmodalnegative').foundation('reveal', 'close');
   };
 
   function updateGraph(){
