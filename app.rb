@@ -32,10 +32,11 @@ class App < Sinatra::Base
   end
 
   before do
-    @account = Account.new(:name => "Sample User", :url => "")
+
   end
 
   get "/" do
+    @account = Account.new(:name => "Sample User", :url => "")
     haml :index, :layout_engine => :erb
   end
 
@@ -48,6 +49,7 @@ class App < Sinatra::Base
   end
 
   get "/statistic" do
+    @account = Account.new(:name => "Sample User", :url => "")
     @votes = Vote.all(:order => [ :created_at.desc ])
     haml :statistic, :layout_engine => :erb
   end
