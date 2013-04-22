@@ -2,6 +2,7 @@ require 'bundler/setup'
 Bundler.require(:default)
 
 require 'securerandom'
+require './pwgen'
 
 Dir.glob(File.join("{lib,models,controllers,routes}", "*.rb")).each{|f| require File.realpath(f)}
 
@@ -21,8 +22,6 @@ class App < Sinatra::Base
   configure :development, :test do
     DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/db/development.sqlite3")
     DataMapper.auto_upgrade!
-    # this deletes all data:
-    # DataMapper.auto_migrate!
   end
 
   configure :production do
@@ -53,11 +52,6 @@ class App < Sinatra::Base
     vote.save
   end
 
-  get "/statistic" do
-    @votes = Vote.all(:account_id => nil, :order => [ :created_at.desc ])
-    haml :statistic, :layout_engine => :erb
-  end
-
   get "/votes_count.json" do
     content_type :json
     Vote.count.to_json
@@ -68,16 +62,28 @@ class App < Sinatra::Base
     Account.count.to_json
   end
 
-  get "/:url/statistic" do |url|
-    @account = Account.first(:url => url)
-    redirect to('/') if @account.nil?
-    @votes = Vote.all(:account_id => @account.id, :order => [ :created_at.desc ])
-    haml :statistic, :layout_engine => :erb
+  get "/graph.json" do
+    content_type :json
+    limit = (URI.escape(params[:width]).to_i/5).ceil + 3
+    if URI.escape(params[:url]).empty?
+      votes = Vote.all(:account_id => nil, :order => [ :created_at.desc ], :limit => limit)
+    else
+      @account = Account.first(:url => URI.escape(params[:url]))
+      votes = Vote.all(:account_id => @account.id, :order => [ :created_at.desc ], :limit => limit)
+    end
+    @votes = Array.new
+    votes.each do |vote|
+      @votes << vote.vote
+    end
+    @votes = @votes.drop(3)
+    @votes.to_json
   end
 
-  get "/:url/new" do |url|
-    @account = Account.create(:url => URI.escape(url), :name => URI.escape(url))
-    redirect to("/#{url}")
+  get "/new" do
+    pwgen = PasswordGenerator.new
+    newUrl = pwgen.generate(8)
+    Account.create(:url => newUrl, :name => newUrl)
+    redirect to("/#{newUrl}")
   end
 
   post "/:url/edit" do |url|

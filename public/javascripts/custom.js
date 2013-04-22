@@ -1,11 +1,12 @@
 $(document).ready(function () {
 
+  $(document).foundation();
+  updateGraph();
+
   $("a#up").click(function(){
     $("a").addClass("disabled");
     $('#resultmodal').foundation('reveal', 'open');
-    var path = window.location.pathname;
-    var account = path.substr(1, path.length);
-    $.post("/up", {url: account});
+    $.post("/up", {url: getAccountName()});
     enableButtonsDelayed(5);
     removeResultAlertDelayed(2);
     return false;
@@ -14,9 +15,7 @@ $(document).ready(function () {
   $("a#down").click(function(){
     $("a").addClass("disabled");
     $('#resultmodal').foundation('reveal', 'open');
-    var path = window.location.pathname;
-    var account = path.substr(1, path.length);
-    $.post("/down", {url: account});
+    $.post("/down", {url: getAccountName()});
     enableButtonsDelayed(5);
     removeResultAlertDelayed(2);
     return false;
@@ -53,6 +52,24 @@ $(document).ready(function () {
     $('#resultmodal').foundation('reveal', 'close');
   };
 
+  function updateGraph(){
+    $.getJSON("/graph.json", {url: getAccountName(), width: $("#responsivebox").width()}, function(data) {
+      $("#graph").sparkline(data, {
+        type: 'tristate',
+        disableTooltips: true,
+        posBarColor: "#457a1a",
+        negBarColor: "#970b0e",
+        height: "10px"
+      });
+    });
+
+  };
+
+  function getAccountName() {
+    var pathArray = window.location.pathname.split( '/' );
+    return pathArray[1];
+  };
+
   // remove URL bar from mobile devices
   /mobile/i.test(navigator.userAgent) && !window.location.hash && setTimeout(function () {
     window.scrollTo(0, 1);
@@ -62,9 +79,12 @@ $(document).ready(function () {
     $.getJSON("/votes_count.json", function(data) {
       $("#votes_count").text(data);
     });
+
     $.getJSON("/accounts_count.json", function(data) {
       $("#accounts_count").text(data);
     });
+
+    updateGraph();
   }, 5000);
 
 });

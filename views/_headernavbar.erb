@@ -24,10 +24,9 @@
       <li class="has-dropdown">
         <a href="/<%= @account.url %>" id="accountname"><%= @account.name %></a>
         <ul class="dropdown">
-          <li><a href="<%= @account.url %>/statistic">Statistic</a></li>
           <li><a href="" id="editmodal-link">Change name</a></li>
           <li class="divider"></li>
-          <li><a href="/<%= SecureRandom.urlsafe_base64(4) %>/new">Create new account</a></li>
+          <li><a href="/new">Create new account</a></li>
         </ul>
       </li>
     </ul>
