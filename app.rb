@@ -1,7 +1,9 @@
 require 'bundler/setup'
 Bundler.require(:default)
 
-Dir.glob(File.join("{lib,models,controllers}", "*.rb")).each{|f| require File.realpath(f)}
+require 'securerandom'
+
+Dir.glob(File.join("{lib,models,controllers,routes}", "*.rb")).each{|f| require File.realpath(f)}
 
 class App < Sinatra::Base
   register Sinatra::Partial
@@ -29,6 +31,11 @@ class App < Sinatra::Base
     disable :run, :reload
   end
 
+  before do
+    @account = Account.new(:name => "Sample User", :url => "")
+    logger.debug "new request"
+  end
+
   get "/" do
     haml :index, :layout_engine => :erb
   end
@@ -51,4 +58,32 @@ class App < Sinatra::Base
     Vote.count.to_json
   end
 
+  get "/accounts_count.json" do
+    content_type :json
+    Account.count.to_json
+  end
+
+  get "/:url/statistic" do |url|
+    @account = Account.first(:url => url)
+    redirect to('/') if @account.nil?
+    @votes = Vote.all(:order => [ :created_at.desc ])
+    haml :statistic, :layout_engine => :erb
+  end
+
+  get "/:url/new" do |url|
+    @account = Account.create(:url => url, :name => url)
+    redirect to("/#{url}")
+  end
+
+  post "/:url/edit" do |url|
+    @account = Account.first(:url => url)
+    return false if @account.nil?
+    @account.update(:name => URI.escape(params[:editname]))
+  end
+
+  get "/:url" do |url|
+    @account = Account.first(:url => url)
+    redirect to('/') if @account.nil?
+    haml :index, :layout_engine => :erb
+  end
 end

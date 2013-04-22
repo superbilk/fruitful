@@ -4,7 +4,7 @@
     <!-- Title Area -->
     <li class="name">
       <h1>
-        <a href="/">
+        <a href="<%= @account.url %>">
           being fruitful
         </a>
       </h1>
@@ -22,17 +22,16 @@
     <ul class="right">
       <li class="divider"></li>
       <li class="has-dropdown">
-        <a href="/">purple tentacle</a>
+        <a href="/<%= @account.url %>" id="accountname"><%= @account.name %></a>
         <ul class="dropdown">
-          <li><a href="/statistic">Statistic</a></li>
-          <li><a href="#">Account Info</a></li>
+          <li><a href="<%= @account.url %>/statistic">Statistic</a></li>
+          <li><a href="" id="editmodal-link">Change name</a></li>
           <li class="divider"></li>
-          <li><a href="#">Log out</a></li>
+          <li><a href="/<%= SecureRandom.urlsafe_base64(4) %>/new">Create new account</a></li>
         </ul>
       </li>
     </ul>
   </section>
 </nav>
-
 
 <!-- End Header and Nav -->

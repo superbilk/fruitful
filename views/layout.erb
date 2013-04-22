@@ -7,18 +7,21 @@
   <meta name="viewport" content="width=device-width" />
   <title>fruitful beta</title>
 
-  <link rel="stylesheet" href="stylesheets/normalize.css" />
-  <link rel="stylesheet" href="stylesheets/app.css" />
+  <link rel="stylesheet" href="/stylesheets/normalize.css" />
+  <link rel="stylesheet" href="/stylesheets/app.css" />
 
-  <script src="javascripts/vendor/custom.modernizr.js"></script>
+  <script src="/javascripts/vendor/custom.modernizr.js"></script>
 
 </head>
 <body>
   <%= partial(:headernavbar, :template_engine => :erb) %>
 
   <!-- Main Section -->
-
-    <%= yield %>
+  <div class="row">
+    <div class="large-6 large-centered columns">
+      <%= yield %>
+    </div>
+  </div>
 
   <!-- End Main Section -->
 
@@ -28,7 +31,11 @@
     <div class="small-12 columns small-centered text-center">
       <hr />
         <p>Delivering Happiness since 2012. Powered by Sinatra. Crafted with Sublime Text. ♡.</p>
-        <p><small>env:<%= settings.environment %>|votes:<span id="votes_count"><%= Vote.count %></span></small></p>
+        <p><small>env:<%= settings.environment %>
+          | votes:<span id="votes_count"><%= Vote.count %></span>
+          | accounts:<span id="accounts_count"><%= Account.count %></span>
+
+        </small></p>
     </div>
   </footer>
 
