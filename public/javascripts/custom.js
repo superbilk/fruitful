@@ -88,22 +88,17 @@ $(document).ready(function () {
     updateGraph();
   }, 5000);
 
+  setInterval(function () {
+    $.getJSON("/texts.json", function(data) {
+      $("#question").text(data.question);
+      $("#up").text(data.positive);
+      $("#down").text(data.negative);
+    });
+  }, 60*60*1000);
+
 });
 
 // remove URL bar from mobile devices
-// http://mobile.tutsplus.com/tutorials/mobile-web-apps/remove-address-bar/
-function hideAddressBar()
-{
-  if(!window.location.hash)
-  {
-      if(document.height < window.outerHeight)
-      {
-          document.body.style.height = (window.outerHeight + 50) + 'px';
-      }
-
-      setTimeout( function(){ window.scrollTo(0, 1); }, 50 );
-  }
-}
-
-window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
-window.addEventListener("orientationchange", hideAddressBar );
+/mobile/i.test(navigator.userAgent) && !window.location.hash && setTimeout(function () {
+  window.scrollTo(0, 1);
+}, 500);

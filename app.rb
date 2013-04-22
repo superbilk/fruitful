@@ -14,6 +14,7 @@ class App < Sinatra::Base
     enable :partial_underscores
     # enable :logging
     enable :sessions
+    set :session_secret, "43fb3pwgb3gb3"
   end
 
   # DataMapper::Logger.new($stdout, :debug)
@@ -31,7 +32,7 @@ class App < Sinatra::Base
   end
 
   before do
-    if params[:url].empty?
+    if params[:url].nil? || params[:url].empty?
       @account = Account.new(:name => "sample user", :url => "")
     else
       @account = Account.first(:url => URI.escape(params[:url]))
@@ -62,6 +63,18 @@ class App < Sinatra::Base
     vote.save
   end
 
+  get "/texts.json" do
+    content_type :json
+    texts = Array.new
+    texts << { :question => "Have you shipped today?", :positive => "YEAH!", :negative => "not yet" }
+    texts << { :question => "How is it going?", :positive => "great day", :negative => "bummer" }
+    texts << { :question => "How is it going?", :positive => "awesome", :negative => "bummer" }
+    texts << { :question => "build server?", :positive => "green", :negative => "red" }
+    texts << { :question => "How is your day?", :positive => "sunny", :negative => "rainy" }
+    text = texts.sample
+    text.to_json
+  end
+
   get "/votes_count.json" do
     content_type :json
     Vote.count.to_json
@@ -75,7 +88,7 @@ class App < Sinatra::Base
   get "/graph.json" do
     content_type :json
     limit = (URI.escape(params[:width]).to_i/5).ceil + 3
-    votes = Vote.all(:account_id => @account.id, :order => [ :created_at.desc ], :limit => limit)
+    votes = Vote.all(:account => @account, :order => [ :created_at.desc ], :limit => limit)
     @votes = Array.new
     votes.each do |vote|
       @votes << vote.vote
@@ -92,12 +105,12 @@ class App < Sinatra::Base
   end
 
   post "/:url/edit" do |url|
-    return false if @account.nil?
+    @account = Account.first(:url => url)
     @account.update(:name => URI.escape(params[:editname]))
   end
 
   get "/:url" do |url|
-    redirect to('/') if @account.nil?
+    @account = Account.first(:url => url)
     haml :index, :layout_engine => :erb
   end
 end
