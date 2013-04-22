@@ -3,7 +3,10 @@ Bundler.require(:default)
 
 require 'securerandom'
 
-Dir.glob(File.join("{lib,models,controllers,routes}", "*.rb")).each{|f| require File.realpath(f)}
+# Dir.glob(File.join("{lib,models,controllers,routes}", "*.rb")).each{|f| require File.realpath(f)}
+
+require './models/account'
+require './models/vote'
 
 class App < Sinatra::Base
   register Sinatra::Partial
