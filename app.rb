@@ -36,6 +36,7 @@ class App < Sinatra::Base
   end
 
   get "/" do
+    3.times { Vote.create(:vote => [-1, 1].sample) }
     redirect to("/#{session[:account]}") unless session[:account].nil?
     haml :index, :layout_engine => :erb
   end
@@ -95,13 +96,13 @@ class App < Sinatra::Base
   end
 
   post "/:url/edit" do |url|
-    @account = Account.first(:url => url)
+    @account = Account.first(:url => URI.escape(params[:url]))
     return false if @account.nil?
     @account.update(:name => URI.escape(params[:editname]))
   end
 
   get "/:url" do |url|
-    @account = Account.first(:url => url)
+    @account = Account.first(:url => URI.escape(params[:url]))
     redirect to('/') if @account.nil?
     haml :index, :layout_engine => :erb
   end
