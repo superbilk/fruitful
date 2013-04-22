@@ -14,7 +14,7 @@ namespace :db do
   desc "Recereates database"
   task :reset_hard => :environment do
     puts "Resetting..."
-    DataMapper.auto_migrate!
+    DataMapper.finalize.auto_migrate!
     puts "votes#: #{Vote.count}"
     puts "accounts#: #{Account.count}"
   end
