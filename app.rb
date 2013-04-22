@@ -1,6 +1,7 @@
 require 'bundler/setup'
 Bundler.require(:default)
 
+require "sinatra/cookies"
 require 'securerandom'
 require './pwgen'
 
@@ -8,6 +9,7 @@ Dir.glob(File.join("{lib,models,controllers,routes}", "*.rb")).each{|f| require 
 
 class App < Sinatra::Base
   register Sinatra::Partial
+  helpers Sinatra::Cookies
 
   configure do
     set :haml, :format => :html5
@@ -37,17 +39,16 @@ class App < Sinatra::Base
     else
       @account = Account.first(:url => URI.escape(params[:url]))
     end
-    @session = session[:account]
   end
 
   get "/" do
     3.times { Vote.create(:vote => [-1, 1].sample) }
-    redirect to("/#{session[:account]}") unless session[:account].nil?
+    redirect to("/#{cookies[:account]}") unless cookies[:account].nil?
     haml :index, :layout_engine => :erb
   end
 
   get "/logout" do
-    session[:account] = nil
+    cookies[:account] = nil
     redirect to("/")
   end
 
@@ -100,7 +101,7 @@ class App < Sinatra::Base
   get "/new" do
     newUrl = PasswordGenerator.new.generate(8)
     Account.create(:url => newUrl, :name => newUrl)
-    session[:account] = newUrl
+    cookies[:account] = newUrl
     redirect to("/#{newUrl}")
   end
 
