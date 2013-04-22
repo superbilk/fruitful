@@ -66,12 +66,8 @@ class App < Sinatra::Base
 
   get "/texts.json" do
     content_type :json
-    texts = Array.new
-    texts << { :question => "Have you shipped today?", :positive => "YEAH!", :negative => "not yet" }
-    texts << { :question => "How is it going?", :positive => "great day", :negative => "bummer" }
-    texts << { :question => "How is it going?", :positive => "awesome", :negative => "bummer" }
-    texts << { :question => "build server?", :positive => "green", :negative => "red" }
-    texts << { :question => "How is your day?", :positive => "sunny", :negative => "rainy" }
+    json = File.read('./models/texts.json')
+    texts = JSON.parse(json)
     text = texts.sample
     text.to_json
   end
