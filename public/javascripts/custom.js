@@ -4,6 +4,9 @@ $(document).ready(function () {
   updateGraph();
 
   $("a#up").click(function(){
+    if ($(this).hasClass('disabled')) {
+      return false;
+    }
     $("a").addClass("disabled");
     $('#resultmodal').foundation('reveal', 'open');
     $.post("/up", {url: getAccountName()});
@@ -13,6 +16,9 @@ $(document).ready(function () {
   });
 
   $("a#down").click(function(){
+    if ($(this).hasClass('disabled')) {
+      return false;
+    }
     $("a").addClass("disabled");
     $('#resultmodal').foundation('reveal', 'open');
     $.post("/down", {url: getAccountName()});
