@@ -39,6 +39,7 @@ class App < Sinatra::Base
     else
       @account = Account.first(:url => URI.escape(params[:url]))
     end
+    cookies[:text] ||= 1
   end
 
   get "/" do
@@ -68,7 +69,10 @@ class App < Sinatra::Base
     content_type :json
     json = File.read('./models/texts.json')
     texts = JSON.parse(json)
-    text = texts.sample
+    begin
+      text = texts.sample
+    end while text["id"] == cookies[:text].to_s
+    cookies[:text] = text["id"]
     text.to_json
   end
 
