@@ -12,7 +12,7 @@ class App < Sinatra::Base
   configure do
     set :haml, :format => :html5
     enable :partial_underscores
-    enable :logging
+    # enable :logging
     enable :sessions
   end
 
@@ -32,10 +32,17 @@ class App < Sinatra::Base
 
   before do
     @account = Account.new(:name => "Sample User", :url => "")
+    @session = session[:account]
   end
 
   get "/" do
+    redirect to("/#{session[:account]}") unless session[:account].nil?
     haml :index, :layout_engine => :erb
+  end
+
+  get "/logout" do
+    session[:account] = nil
+    redirect to("/")
   end
 
   post "/up" do
@@ -83,6 +90,7 @@ class App < Sinatra::Base
     pwgen = PasswordGenerator.new
     newUrl = pwgen.generate(8)
     Account.create(:url => newUrl, :name => newUrl)
+    session[:account] = newUrl
     redirect to("/#{newUrl}")
   end
 
