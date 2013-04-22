@@ -33,7 +33,6 @@ class App < Sinatra::Base
 
   before do
     @account = Account.new(:name => "Sample User", :url => "")
-    logger.debug "new request"
   end
 
   get "/" do
