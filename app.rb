@@ -31,7 +31,11 @@ class App < Sinatra::Base
   end
 
   before do
-    @account = Account.new(:name => "Sample User", :url => "")
+    if params[:url].empty?
+      @account = Account.new(:name => "sample user", :url => "")
+    else
+      @account = Account.first(:url => URI.escape(params[:url]))
+    end
     @session = session[:account]
   end
 
@@ -47,14 +51,12 @@ class App < Sinatra::Base
   end
 
   post "/up" do
-    @account = Account.first(:url => URI.escape(params[:url]))
     vote = Vote.new(:vote => 1)
     vote.account = @account
     vote.save
   end
 
   post "/down" do
-    @account = Account.first(:url => URI.escape(params[:url]))
     vote = Vote.new(:vote => -1)
     vote.account = @account
     vote.save
@@ -73,12 +75,7 @@ class App < Sinatra::Base
   get "/graph.json" do
     content_type :json
     limit = (URI.escape(params[:width]).to_i/5).ceil + 3
-    if URI.escape(params[:url]).empty?
-      votes = Vote.all(:account_id => nil, :order => [ :created_at.desc ], :limit => limit)
-    else
-      @account = Account.first(:url => URI.escape(params[:url]))
-      votes = Vote.all(:account_id => @account.id, :order => [ :created_at.desc ], :limit => limit)
-    end
+    votes = Vote.all(:account_id => @account.id, :order => [ :created_at.desc ], :limit => limit)
     @votes = Array.new
     votes.each do |vote|
       @votes << vote.vote
@@ -88,21 +85,18 @@ class App < Sinatra::Base
   end
 
   get "/new" do
-    pwgen = PasswordGenerator.new
-    newUrl = pwgen.generate(8)
+    newUrl = PasswordGenerator.new.generate(8)
     Account.create(:url => newUrl, :name => newUrl)
     session[:account] = newUrl
     redirect to("/#{newUrl}")
   end
 
   post "/:url/edit" do |url|
-    @account = Account.first(:url => URI.escape(params[:url]))
     return false if @account.nil?
     @account.update(:name => URI.escape(params[:editname]))
   end
 
   get "/:url" do |url|
-    @account = Account.first(:url => URI.escape(params[:url]))
     redirect to('/') if @account.nil?
     haml :index, :layout_engine => :erb
   end
