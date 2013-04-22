@@ -40,11 +40,12 @@ class App < Sinatra::Base
       @account = Account.first(:url => URI.escape(params[:url]))
     end
     cookies[:text] ||= 1
+    @cookie = cookies[:account]
   end
 
   get "/" do
-    3.times { Vote.create(:vote => [-1, 1].sample) }
-    redirect to("/#{cookies[:account]}") unless cookies[:account].nil?
+    # 3.times { Vote.create(:vote => [-1, 1].sample) }
+    redirect to("/#{cookies[:account]}") unless cookies[:account].nil? || cookies[:account].empty?
     haml :index, :layout_engine => :erb
   end
 

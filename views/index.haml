@@ -23,5 +23,14 @@
     %a.small.button#editsave{:href=>""} Save
   %a.close-reveal-modal ×
 
+#logoutmodal.reveal-modal
+  %h2 Attention!
+  %p.lead
+    To come back you need the following URL:
+    %b
+      = request.url
+  %p
+    %a.small.alert.button#logout{:href=>"/logout"} Proceed logout
+  %a.close-reveal-modal ×
 
 

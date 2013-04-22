@@ -1,9 +1,40 @@
 [
 
-{ "id":"1", "question":"How is it going?",        "positive":"awesome",   "negative":"bummer"   },
-{ "id":"2", "question":"Have you shipped today?", "positive":"YEAH!",     "negative": "not yet" },
-{ "id":"3", "question":"How is it going?",        "positive":"great day", "negative":"bummer"   },
-{ "id":"4", "question":"build server?",           "positive":"green",     "negative":"red"      },
-{ "id":"5", "question":"How is your day?",        "positive":"sunny",     "negative":"rainy"    }
+  {
+    "id":"1",
+    "question":"How is it going?",
+    "positive":"awesome",
+    "negative":"bummer"
+  },
+  {
+    "id":"2",
+    "question":"Have you shipped today?",
+    "positive":"YEAH!",
+    "negative":"not yet"
+  },
+  {
+    "id":"3",
+    "question":"How is it going?",
+    "positive":"great day",
+    "negative":"bummer"
+  },
+  {
+    "id":"4",
+    "question":"build server?",
+    "positive":"green",
+    "negative":"red"
+  },
+  {
+    "id":"5",
+    "question":"How is your day?",
+    "positive":"sunny",
+    "negative":"rainy"
+  },
+  {
+    "id":"6",
+    "question":"Happy?",
+    "positive":":-)",
+    "negative":":-("
+  }
 
 ]

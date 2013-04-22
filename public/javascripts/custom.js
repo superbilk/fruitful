@@ -42,6 +42,11 @@ $(document).ready(function () {
     return false;
   });
 
+  $("a#logoutmodal-link").click(function(){
+    $('#logoutmodal').foundation('reveal', 'open');
+    return false;
+  });
+
   function enableButtonsDelayed(delaySeconds){
     window.setTimeout(enableButtons, delaySeconds*1000);
   };

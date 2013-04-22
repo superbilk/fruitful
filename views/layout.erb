@@ -38,6 +38,7 @@
         <p><small>env:<%= settings.environment %>
           | votes:<span id="votes_count"><%= Vote.count %></span>
           | accounts:<span id="accounts_count"><%= Account.count %></span>
+          | cookie:<span><%= @cookie.inspect %></span>
         </small></p>
     </div>
   </footer>
