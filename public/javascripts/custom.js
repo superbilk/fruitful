@@ -67,7 +67,7 @@ $(document).ready(function () {
   function updateGraph(){
     $.getJSON("/graph.json", {url: getAccountName(), width: $("#responsivebox").width()}, function(data) {
       if (data.length>0) {
-        $("#graph").sparkline(data, {
+        $("#tristategraph").sparkline(data, {
           type: 'tristate',
           disableTooltips: true,
           posBarColor: "#457a1a",
@@ -102,7 +102,7 @@ $(document).ready(function () {
       $("#up").text(data.positive);
       $("#down").text(data.negative);
     });
-  }, 60*60*1000);
+  }, 25*60*1000);
 
 });
 
