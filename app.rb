@@ -77,15 +77,15 @@ class App < Sinatra::Base
     text.to_json
   end
 
-  get "/votes_count.json" do
-    content_type :json
-    Vote.count.to_json
-  end
+  # get "/votes_count.json" do
+  #   content_type :json
+  #   Vote.count.to_json
+  # end
 
-  get "/accounts_count.json" do
-    content_type :json
-    Account.count.to_json
-  end
+  # get "/accounts_count.json" do
+  #   content_type :json
+  #   Account.count.to_json
+  # end
 
   get "/graph.json" do
     content_type :json
