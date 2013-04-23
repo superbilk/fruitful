@@ -34,19 +34,23 @@ class App < Sinatra::Base
   end
 
   before do
-    if params[:url].nil? || params[:url].empty?
+    if params[:url].nil? || params[:url].empty? || cookies[:account].nil? || cookies[:account].empty?
       @account = Account.new(:name => "sample user", :url => "")
     else
       @account = Account.first(:url => URI.escape(params[:url]))
     end
     cookies[:text] ||= 1
-    @cookie = cookies[:account]
   end
 
   get "/" do
-    # 3.times { Vote.create(:vote => [-1, 1].sample) }
-    redirect to("/#{cookies[:account]}") unless cookies[:account].nil? || cookies[:account].empty?
-    haml :index, :layout_engine => :erb
+    if cookies[:account].nil? || cookies[:account].empty?
+      newUrl = PasswordGenerator.new.generate(8)
+      Account.create(:url => newUrl, :name => newUrl)
+      cookies[:account] = newUrl
+      redirect to("/#{newUrl}")
+    else
+      redirect to("/#{cookies[:account]}")
+    end
   end
 
   get "/logout" do
@@ -90,20 +94,12 @@ class App < Sinatra::Base
   get "/graph.json" do
     content_type :json
     limit = (URI.escape(params[:width]).to_i/5).ceil + 3
-    votes = Vote.all(:account => @account, :order => [ :created_at.desc ], :limit => limit)
+    votes = Vote.all(:account => @account, :order => [ :created_at.desc ], :limit => limit, :created_at.lt => Time.now-15)
     @votes = Array.new
     votes.each do |vote|
       @votes << vote.vote
     end
-    @votes = @votes.drop(3)
     @votes.to_json
-  end
-
-  get "/new" do
-    newUrl = PasswordGenerator.new.generate(8)
-    Account.create(:url => newUrl, :name => newUrl)
-    cookies[:account] = newUrl
-    redirect to("/#{newUrl}")
   end
 
   post "/:url/edit" do |url|
@@ -112,6 +108,7 @@ class App < Sinatra::Base
   end
 
   get "/:url" do |url|
+    cookies[:account] = url
     @account = Account.first(:url => url)
     haml :index, :layout_engine => :erb
   end

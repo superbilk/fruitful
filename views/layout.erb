@@ -6,6 +6,7 @@
   <meta charset="utf-8" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <meta name="apple-mobile-web-app-title" content="fruitful">
 
   <title>fruitful beta</title>
 
@@ -23,7 +24,7 @@
   <div class="row">
     <div id="responsivebox" class="large-6 large-centered columns">
       <%= yield %>
-      <span id ="graph">&nbsp;</span>
+      <span id="graph">Click above and statistics will show up in a few seconds.</span>
     </div>
   </div>
 
@@ -34,12 +35,7 @@
   <footer class="row">
     <div class="small-12 columns small-centered text-center">
       <hr />
-        <p>Delivering Happiness since 2012. Powered by Sinatra. Crafted with Sublime Text. ♡.</p>
-        <p><small>env:<%= settings.environment %>
-          | votes:<span id="votes_count"><%= Vote.count %></span>
-          | accounts:<span id="accounts_count"><%= Account.count %></span>
-          | cookie:<span><%= @cookie.inspect %></span>
-        </small></p>
+      <p>Delivering Happiness since 2012. Powered by Sinatra. Crafted with Sublime Text. ♡</p>
     </div>
   </footer>
 

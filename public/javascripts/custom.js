@@ -66,13 +66,15 @@ $(document).ready(function () {
 
   function updateGraph(){
     $.getJSON("/graph.json", {url: getAccountName(), width: $("#responsivebox").width()}, function(data) {
-      $("#graph").sparkline(data, {
-        type: 'tristate',
-        disableTooltips: true,
-        posBarColor: "#457a1a",
-        negBarColor: "#970b0e",
-        height: "10px"
-      });
+      if (data.length>0) {
+        $("#graph").sparkline(data, {
+          type: 'tristate',
+          disableTooltips: true,
+          posBarColor: "#457a1a",
+          negBarColor: "#970b0e",
+          height: "10px"
+        });
+      }
     });
 
   };
