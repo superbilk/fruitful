@@ -18,7 +18,7 @@ class App < Sinatra::Base
     enable :sessions
     set :session_secret, "43fb3pwgb3gb3"
     set(:cookie_options) do
-      { :expires => Time.now + 3600*24*90 }
+      { :expires => Time.now + 3600*24*90, :expire_after => 2592000 }
     end
   end
 
@@ -37,15 +37,15 @@ class App < Sinatra::Base
   end
 
   before do
-    @account = Account.first(:url => URI.escape(params[:url])) unless params[:url].nil? || params[:url].empty?
+    unless params[:url].nil? || params[:url].empty?
+      @account = Account.first(:url => URI.escape(params[:url]))
+    end
     cookies[:text] ||= 1
   end
 
   get "/" do
     if cookies[:account].nil? || cookies[:account].empty?
-      newUrl = PasswordGenerator.new.generate(8)
-      Account.create(:url => newUrl, :name => newUrl)
-      cookies[:account] = newUrl
+      newUrl = createAccount()
       redirect to("/#{newUrl}")
     else
       redirect to("/#{cookies[:account]}")
@@ -71,14 +71,11 @@ class App < Sinatra::Base
 
   get "/texts.json" do
     content_type :json
-    json = File.read('./models/texts.json')
-    texts = JSON.parse(json)
-    begin
-      text = texts.sample
-    end while text["id"] == cookies[:text].to_s
+    text = getText(cookies[:text].to_s)
     cookies[:text] = text["id"]
     text.to_json
   end
+
 
   # get "/votes_count.json" do
   #   content_type :json
@@ -93,7 +90,10 @@ class App < Sinatra::Base
   get "/graph.json" do
     content_type :json
     limit = (URI.escape(params[:width]).to_i/5).ceil + 3
-    votes = Vote.all(:account => @account, :order => [ :created_at.desc ], :limit => limit, :created_at.lt => Time.now-15)
+    votes = Vote.all( :account => @account,
+                      :order => [ :created_at.desc ],
+                      :limit => limit,
+                      :created_at.lt => Time.now-15)
     @votes = Array.new
     votes.each do |vote|
       @votes << vote.vote
@@ -107,8 +107,26 @@ class App < Sinatra::Base
   end
 
   get "/:url" do |url|
-    cookies[:account] = url
+    createAccount(url) if @account.nil?
     @account = Account.first(:url => url)
     haml :index, :layout_engine => :erb
+  end
+
+private
+
+  def getText(currentID = 1)
+    json = File.read('./models/texts.json')
+    texts = JSON.parse(json)
+    begin
+      text = texts.sample
+    end while text["id"] == currentID
+    return text
+  end
+
+  def createAccount(url = nil)
+    url ||= PasswordGenerator.new.generate(8)
+    Account.create(:url => url, :name => url)
+    cookies[:account] = url
+    return url
   end
 end
