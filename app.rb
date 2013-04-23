@@ -17,6 +17,9 @@ class App < Sinatra::Base
     # enable :logging
     enable :sessions
     set :session_secret, "43fb3pwgb3gb3"
+    set(:cookie_options) do
+      { :expires => Time.now + 3600*24*90 }
+    end
   end
 
   # DataMapper::Logger.new($stdout, :debug)
