@@ -30,7 +30,7 @@
     %b
       = request.url
   %p
-    %a.small.alert.button#logout{:href=>"/logout"} Proceed logout
+    %a.small.alert.button#logout{:href=> "#{@account.url}/logout"} Proceed logout
   %a.close-reveal-modal ×
 
 

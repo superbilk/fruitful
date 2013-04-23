@@ -14,7 +14,6 @@ class App < Sinatra::Base
   configure do
     set :haml, :format => :html5
     enable :partial_underscores
-    # enable :logging
     enable :sessions
     set :session_secret, "43fb3pwgb3gb3"
     set(:cookie_options) do
@@ -26,6 +25,7 @@ class App < Sinatra::Base
   DataMapper.finalize
 
   configure :development, :test do
+    # enable :logging, :dump_errors, :raise_errors
     DataMapper::setup(:default, "sqlite3://#{Dir.pwd}/db/development.sqlite3")
     DataMapper.auto_upgrade!
   end
@@ -37,36 +37,17 @@ class App < Sinatra::Base
   end
 
   before do
-    unless params[:url].nil? || params[:url].empty?
-      @account = Account.first(:url => URI.escape(params[:url]))
-    end
     cookies[:text] ||= 1
   end
 
   get "/" do
-    if cookies[:account].nil? || cookies[:account].empty?
-      newUrl = createAccount()
-      redirect to("/#{newUrl}")
-    else
-      redirect to("/#{cookies[:account]}")
-    end
+    createAccount() if cookies[:account].nil? || cookies[:account].empty?
+    redirect to("/#{cookies[:account]}")
   end
 
-  get "/logout" do
+  get "/:url/logout" do
     cookies[:account] = nil
     redirect to("/")
-  end
-
-  post "/up" do
-    vote = Vote.new(:vote => 1)
-    vote.account = @account
-    vote.save
-  end
-
-  post "/down" do
-    vote = Vote.new(:vote => -1)
-    vote.account = @account
-    vote.save
   end
 
   get "/texts.json" do
@@ -76,19 +57,23 @@ class App < Sinatra::Base
     text.to_json
   end
 
+  post "/:url/up" do |url|
+    @account = Account.first(:url => URI.escape(url))
+    vote = Vote.new(:vote => 1)
+    vote.account = @account
+    vote.save
+  end
 
-  # get "/votes_count.json" do
-  #   content_type :json
-  #   Vote.count.to_json
-  # end
+  post "/:url/down" do |url|
+    @account = Account.first(:url => URI.escape(url))
+    vote = Vote.new(:vote => -1)
+    vote.account = @account
+    vote.save
+  end
 
-  # get "/accounts_count.json" do
-  #   content_type :json
-  #   Account.count.to_json
-  # end
-
-  get "/graph.json" do
+  get "/:url/graph.json" do |url|
     content_type :json
+    @account = Account.first(:url => URI.escape(url))
     limit = (URI.escape(params[:width]).to_i/5).ceil + 3
     votes = Vote.all( :account => @account,
                       :order => [ :created_at.desc ],
@@ -102,13 +87,13 @@ class App < Sinatra::Base
   end
 
   post "/:url/edit" do |url|
-    @account = Account.first(:url => url)
+    @account = Account.first(:url => URI.escape(url))
     @account.update(:name => URI.escape(params[:editname]))
   end
 
   get "/:url" do |url|
-    createAccount(url) if @account.nil?
-    @account = Account.first(:url => url)
+    @account = Account.first(:url => URI.escape(url))
+    @account = createAccount(url) if @account.nil?
     haml :index, :layout_engine => :erb
   end
 
@@ -123,10 +108,9 @@ private
     return text
   end
 
-  def createAccount(url = nil)
+  def createAccount(url=nil)
     url ||= PasswordGenerator.new.generate(8)
-    Account.create(:url => url, :name => url)
     cookies[:account] = url
-    return url
+    Account.create(:url => url, :name => url)
   end
 end

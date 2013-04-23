@@ -9,7 +9,7 @@ $(document).ready(function () {
     }
     $("a").addClass("disabled");
     $('#resultmodalpositive').foundation('reveal', 'open');
-    $.post("/up", {url: getAccountName()});
+    $.post(window.location.pathname + "/up");
     enableButtonsDelayed(5);
     removeResultAlertDelayed(2);
     return false;
@@ -21,7 +21,7 @@ $(document).ready(function () {
     }
     $("a").addClass("disabled");
     $('#resultmodalnegative').foundation('reveal', 'open');
-    $.post("/down", {url: getAccountName()});
+    $.post(window.location.pathname + "/down");
     enableButtonsDelayed(5);
     removeResultAlertDelayed(2);
     return false;
@@ -65,7 +65,7 @@ $(document).ready(function () {
   };
 
   function updateGraph(){
-    $.getJSON("/graph.json", {url: getAccountName(), width: $("#responsivebox").width()}, function(data) {
+    $.getJSON(window.location.pathname + "/graph.json", {width: $("#responsivebox").width()}, function(data) {
       if (data.length>0) {
         $("#tristategraph").sparkline(data, {
           type: 'tristate',
@@ -77,11 +77,6 @@ $(document).ready(function () {
       }
     });
 
-  };
-
-  function getAccountName() {
-    var pathArray = window.location.pathname.split( '/' );
-    return pathArray[1];
   };
 
   setInterval(function () {
