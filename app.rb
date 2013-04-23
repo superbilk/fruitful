@@ -93,6 +93,7 @@ class App < Sinatra::Base
 
   get "/:url" do |url|
     @account = Account.first(:url => URI.escape(url))
+    cookies[:account] = URI.escape(url)
     @account = createAccount(url) if @account.nil?
     haml :index, :layout_engine => :erb
   end
