@@ -34,11 +34,7 @@ class App < Sinatra::Base
   end
 
   before do
-    if params[:url].nil? || params[:url].empty? || cookies[:account].nil? || cookies[:account].empty?
-      @account = Account.new(:name => "sample user", :url => "")
-    else
-      @account = Account.first(:url => URI.escape(params[:url]))
-    end
+    @account = Account.first(:url => URI.escape(params[:url])) unless params[:url].nil? || params[:url].empty?
     cookies[:text] ||= 1
   end
 
