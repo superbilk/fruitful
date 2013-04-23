@@ -85,13 +85,13 @@ $(document).ready(function () {
   };
 
   setInterval(function () {
-    $.getJSON("/votes_count.json", function(data) {
-      $("#votes_count").text(data);
-    });
+    // $.getJSON("/votes_count.json", function(data) {
+    //   $("#votes_count").text(data);
+    // });
 
-    $.getJSON("/accounts_count.json", function(data) {
-      $("#accounts_count").text(data);
-    });
+    // $.getJSON("/accounts_count.json", function(data) {
+    //   $("#accounts_count").text(data);
+    // });
 
     updateGraph();
   }, 5000);
