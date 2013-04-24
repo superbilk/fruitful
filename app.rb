@@ -36,7 +36,8 @@ class App < Sinatra::Base
   end
 
   before do
-    cookies[:text] ||= 1
+    cookies[:text] ||= "1"
+    @text = getText(cookies[:text])
   end
 
   get "/" do
@@ -148,7 +149,7 @@ private
     texts = JSON.parse(json)
     begin
       text = texts.sample
-    end while text["id"] == currentID
+    end while text["id"] == currentID.to_s
     return text
   end
 

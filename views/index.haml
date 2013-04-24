@@ -1,10 +1,12 @@
 %h2.text-center#question
-  How is it going?
+  = @text["question"]
 %ul.small-block-grid-1
   %li
-    %a.large.button.expand.success#up awesome
+    %a.large.button.expand.success#up
+      = @text["positive"]
   %li
-    %a.large.button.expand.alert#down bummer
+    %a.large.button.expand.alert#down
+      = @text["negative"]
 
 #resultmodalpositive.reveal-modal
   %h2 Awesome.
