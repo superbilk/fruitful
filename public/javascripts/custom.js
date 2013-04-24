@@ -78,7 +78,6 @@ $(document).ready(function () {
     });
     $.getJSON(window.location.pathname + "/piechart_today.json", function(data) {
       if (data.length>0) {
-        console.log(data);
         $("#piecharts").show();
         $("#td-piechart").sparkline(data, {
           type: 'pie',
@@ -89,7 +88,6 @@ $(document).ready(function () {
     });
     $.getJSON(window.location.pathname + "/piechart_yesterday.json", function(data) {
       if (data.length>0) {
-        console.log(data);
         $("#piecharts").show();
         $("#yd-piechart").sparkline(data, {
           type: 'pie',
@@ -100,7 +98,6 @@ $(document).ready(function () {
     });
     $.getJSON(window.location.pathname + "/piechart_week.json", function(data) {
       if (data.length>0) {
-        console.log(data);
         $("#piecharts").show();
         $("#wk-piechart").sparkline(data, {
           type: 'pie',

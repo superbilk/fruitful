@@ -118,10 +118,10 @@ class App < Sinatra::Base
     content_type :json
     @account = Account.first(:url => URI.escape(url))
     positive = Vote.all(:account => @account,
-                        :created_at.gte => Date.today-2 )
+                        :created_at.gte => Date.today-1 )
                 .count(:vote => 1)
     negative = Vote.all(:account => @account,
-                        :created_at.gte => Date.today-2 )
+                        :created_at.gte => Date.today-1 )
                 .count(:vote => -1)
     votes = Array.new()
     votes << positive << negative
