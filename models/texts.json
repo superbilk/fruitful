@@ -35,6 +35,12 @@
     "question":"Happy?",
     "positive":":-)",
     "negative":":-("
+  },
+  {
+    "id":"7",
+    "question":"Are you smiling?",
+    "positive":"Yes",
+    "negative":"No"
   }
 
 ]
