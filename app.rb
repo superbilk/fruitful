@@ -3,7 +3,6 @@ Bundler.require(:default)
 
 require "sinatra/cookies"
 require 'securerandom'
-require './pwgen'
 
 Dir.glob(File.join("{lib,models,controllers,routes}", "*.rb")).each{|f| require File.realpath(f)}
 
@@ -96,6 +95,7 @@ class App < Sinatra::Base
                 .count(:vote => -1)
     votes = Array.new()
     votes << positive << negative
+    votes = [] if (positive == 0 && negative == 0)
     votes.to_json
   end
 
@@ -110,6 +110,7 @@ class App < Sinatra::Base
                 .count(:vote => -1)
     votes = Array.new()
     votes << positive << negative
+    votes = [] if (positive == 0 && negative == 0)
     votes.to_json
   end
 
@@ -124,6 +125,7 @@ class App < Sinatra::Base
                 .count(:vote => -1)
     votes = Array.new()
     votes << positive << negative
+    votes = [] if (positive == 0 && negative == 0)
     votes.to_json
   end
 
