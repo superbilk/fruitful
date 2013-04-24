@@ -2,6 +2,7 @@ $(document).ready(function () {
 
   $(document).foundation();
   updateGraph();
+  $("#piecharts").show();
 
   $("a#up").click(function(){
     if ($(this).hasClass('disabled')) {
@@ -76,18 +77,27 @@ $(document).ready(function () {
         });
       };
     });
-    $.getJSON(window.location.pathname + "/piechart.json", {timeframe: 60*60*24*7}, function(data) {
+    $.getJSON(window.location.pathname + "/piechart_today.json", function(data) {
       if (data.length>0) {
-        $("#7d-piechart").sparkline(data, {
+        $("#td-piechart").sparkline(data, {
           type: 'pie',
           disableTooltips: true,
           sliceColors: ["#5da423", "#c60f13"]
         });
       };
     });
-    $.getJSON(window.location.pathname + "/piechart.json", {timeframe: 60*60*24*1}, function(data) {
+    $.getJSON(window.location.pathname + "/piechart_yesterday.json", function(data) {
       if (data.length>0) {
-        $("#1d-piechart").sparkline(data, {
+        $("#yd-piechart").sparkline(data, {
+          type: 'pie',
+          disableTooltips: true,
+          sliceColors: ["#5da423", "#c60f13"]
+        });
+      };
+    });
+    $.getJSON(window.location.pathname + "/piechart_week.json", function(data) {
+      if (data.length>0) {
+        $("#wk-piechart").sparkline(data, {
           type: 'pie',
           disableTooltips: true,
           sliceColors: ["#5da423", "#c60f13"]

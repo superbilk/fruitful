@@ -25,9 +25,10 @@
     <div id="responsivebox" class="large-6 large-centered columns">
       <%= yield %>
       <span id="tristategraph">Statistics will show up in a few seconds.</span>
-      <span id="piecharts" class="pull right">
-        24h: <span id="1d-piechart">&nbsp;</span>
-        7d: <span id="7d-piechart">&nbsp;</span>
+      <span id="piecharts" class="pull right" style="display: none;">
+        <span id="td-piechart">&nbsp;</span>&nbsp;td
+        <span id="yd-piechart">&nbsp;</span>&nbsp;yd
+        <span id="wk-piechart">&nbsp;</span>&nbsp;wk
       </span>
     </div>
   </div>

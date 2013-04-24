@@ -74,30 +74,57 @@ class App < Sinatra::Base
   get "/:url/graph.json" do |url|
     content_type :json
     @account = Account.first(:url => URI.escape(url))
-    limit = ((URI.escape(params[:width]).to_i-105)/10).ceil
-    votes = Vote.all( :account => @account,
+    limit = ((URI.escape(params[:width]).to_i-125)/10).ceil
+    allvotes = Vote.all( :account => @account,
                       :order => [ :created_at.desc ],
                       :limit => limit)
-    @votes = Array.new
-    votes.each do |vote|
-      @votes << vote.vote
+    votes = Array.new
+    allvotes.each do |vote|
+      votes << vote.vote
     end
-    @votes.to_json
+    votes.to_json
   end
 
-  get "/:url/piechart.json" do |url|
+  get "/:url/piechart_week.json" do |url|
     content_type :json
-    timeframe = URI.escape(params[:timeframe]).to_i
     @account = Account.first(:url => URI.escape(url))
     positive = Vote.all(:account => @account,
-                        :created_at.gte => Time.now-timeframe)
+                        :created_at.lte => Date.today, :created_at.gte => Date.today-8 )
                 .count(:vote => 1)
     negative = Vote.all(:account => @account,
-                        :created_at.gte => Time.now-timeframe)
+                        :created_at.lte => Date.today, :created_at.gte => Date.today-8 )
                 .count(:vote => -1)
-    @votes = Array.new()
-    @votes << positive << negative
-    @votes.to_json
+    votes = Array.new()
+    votes << positive << negative
+    votes.to_json
+  end
+
+  get "/:url/piechart_yesterday.json" do |url|
+    content_type :json
+    @account = Account.first(:url => URI.escape(url))
+    positive = Vote.all(:account => @account,
+                        :created_at.lte => Date.today, :created_at.gte => Date.today-2 )
+                .count(:vote => 1)
+    negative = Vote.all(:account => @account,
+                        :created_at.lte => Date.today, :created_at.gte => Date.today-2 )
+                .count(:vote => -1)
+    votes = Array.new()
+    votes << positive << negative
+    votes.to_json
+  end
+
+  get "/:url/piechart_today.json" do |url|
+    content_type :json
+    @account = Account.first(:url => URI.escape(url))
+    positive = Vote.all(:account => @account,
+                        :created_at.gte => Date.today-2 )
+                .count(:vote => 1)
+    negative = Vote.all(:account => @account,
+                        :created_at.gte => Date.today-2 )
+                .count(:vote => -1)
+    votes = Array.new()
+    votes << positive << negative
+    votes.to_json
   end
 
   post "/:url/edit" do |url|
