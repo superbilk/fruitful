@@ -74,7 +74,7 @@ class App < Sinatra::Base
   get "/:url/graph.json" do |url|
     content_type :json
     @account = Account.first(:url => URI.escape(url))
-    limit = ((URI.escape(params[:width]).to_i-105)/9).ceil + 3
+    limit = ((URI.escape(params[:width]).to_i-105)/9).ceil
     votes = Vote.all( :account => @account,
                       :order => [ :created_at.desc ],
                       :limit => limit)
