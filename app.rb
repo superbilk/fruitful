@@ -73,61 +73,14 @@ class App < Sinatra::Base
 
   get "/:url/graph.json" do |url|
     content_type :json
-    @account = Account.first(:url => URI.escape(url))
+    account = Account.first(:url => URI.escape(url))
     limit = ((URI.escape(params[:width]).to_i-125)/10).ceil
-    allvotes = Vote.all( :account => @account,
-                      :order => [ :created_at.desc ],
-                      :limit => limit)
-    votes = Array.new
-    allvotes.each do |vote|
-      votes << vote.vote
-    end
-    votes.to_json
-  end
-
-  get "/:url/piechart_week.json" do |url|
-    content_type :json
-    @account = Account.first(:url => URI.escape(url))
-    positive = Vote.all(:account => @account,
-                        :created_at.lte => Date.today, :created_at.gte => Date.today-8 )
-                .count(:vote => 1)
-    negative = Vote.all(:account => @account,
-                        :created_at.lte => Date.today, :created_at.gte => Date.today-8 )
-                .count(:vote => -1)
-    votes = Array.new()
-    votes << positive << negative
-    votes = [] if (positive == 0 && negative == 0)
-    votes.to_json
-  end
-
-  get "/:url/piechart_yesterday.json" do |url|
-    content_type :json
-    @account = Account.first(:url => URI.escape(url))
-    positive = Vote.all(:account => @account,
-                        :created_at.lte => Date.today, :created_at.gte => Date.today-2 )
-                .count(:vote => 1)
-    negative = Vote.all(:account => @account,
-                        :created_at.lte => Date.today, :created_at.gte => Date.today-2 )
-                .count(:vote => -1)
-    votes = Array.new()
-    votes << positive << negative
-    votes = [] if (positive == 0 && negative == 0)
-    votes.to_json
-  end
-
-  get "/:url/piechart_today.json" do |url|
-    content_type :json
-    @account = Account.first(:url => URI.escape(url))
-    positive = Vote.all(:account => @account,
-                        :created_at.gte => Date.today-1 )
-                .count(:vote => 1)
-    negative = Vote.all(:account => @account,
-                        :created_at.gte => Date.today-1 )
-                .count(:vote => -1)
-    votes = Array.new()
-    votes << positive << negative
-    votes = [] if (positive == 0 && negative == 0)
-    votes.to_json
+    data = Hash.new
+    data["tristateGraph"] = tristateGraphData(account, limit)
+    data["pieChartWeek"] = pieChartData(account, 0, 8)
+    data["pieChartYesterday"] = pieChartData(account, 0, 2)
+    data["pieChartToday"] = pieChartData(account, nil, 1)
+    data.to_json
   end
 
   post "/:url/edit" do |url|
@@ -157,5 +110,34 @@ private
     url ||= PasswordGenerator.new.generate(8)
     cookies[:account] = url
     Account.create(:url => url, :name => url)
+  end
+
+  def tristateGraphData(account, limit)
+    allvotes = Vote.all(  :account => account,
+                          :order => [ :created_at.desc ],
+                          :limit => limit)
+    votes = Array.new
+    allvotes.each do |vote|
+      votes << vote.vote
+    end
+    votes
+  end
+
+  def pieChartData(account, from, to)
+    if from.nil?
+      positive = Vote.all(:account => account, :created_at.gte => Date.today-to ).count(:vote => 1)
+      negative = Vote.all(:account => account, :created_at.gte => Date.today-to ).count(:vote => -1)
+    else
+      positive = Vote.all(:account => account,
+                          :created_at.lte => Date.today-from,
+                          :created_at.gte => Date.today-to ).count(:vote => 1)
+      negative = Vote.all(:account => account,
+                          :created_at.lte => Date.today-from,
+                          :created_at.gte => Date.today-to ).count(:vote => -1)
+    end
+    votes = Array.new()
+    votes << positive << negative
+    votes = [1,0] if (positive == 0 && negative == 0)
+    votes
   end
 end

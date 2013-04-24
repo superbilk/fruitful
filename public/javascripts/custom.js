@@ -65,52 +65,36 @@ $(document).ready(function () {
   };
 
   function updateGraph(){
-    $.getJSON(window.location.pathname + "/graph.json", {width: $("#responsivebox").width()}, function(data) {
-      if (data.length>0) {
-        $("#tristategraph").sparkline(data, {
-          type: 'tristate',
-          disableTooltips: true,
-          posBarColor: "#5da423",
-          negBarColor: "#c60f13",
-          barWidth: "8"
-        });
-      };
-    });
-    $.getJSON(window.location.pathname + "/piechart_today.json", function(data) {
-      if (data.length>0) {
-        $("#piecharts").show();
-        $("#td-piechart").sparkline(data, {
-          type: 'pie',
-          disableTooltips: true,
-          sliceColors: ["#5da423", "#c60f13"]
-        });
-      };
-    });
-    $.getJSON(window.location.pathname + "/piechart_yesterday.json", function(data) {
-      if (data.length>0) {
-        $("#piecharts").show();
-        $("#yd-piechart").sparkline(data, {
-          type: 'pie',
-          disableTooltips: true,
-          sliceColors: ["#5da423", "#c60f13"]
-        });
-      };
-    });
-    $.getJSON(window.location.pathname + "/piechart_week.json", function(data) {
-      if (data.length>0) {
-        $("#piecharts").show();
-        $("#wk-piechart").sparkline(data, {
-          type: 'pie',
-          disableTooltips: true,
-          sliceColors: ["#5da423", "#c60f13"]
-        });
-      };
+    $.getJSON(window.location.pathname + "/graph.json", { width: $("#responsivebox").width() }, function(data) {
+      $("#piecharts").show();
+      $("#tristategraph").sparkline(data["tristateGraph"], {
+        type: 'tristate',
+        disableTooltips: true,
+        posBarColor: "#5da423",
+        negBarColor: "#c60f13",
+        barWidth: "8"
+      });
+      $("#wk-piechart").sparkline(data["pieChartWeek"], {
+        type: 'pie',
+        disableTooltips: true,
+        sliceColors: ["#5da423", "#c60f13"]
+      });
+      $("#yd-piechart").sparkline(data["pieChartYesterday"], {
+        type: 'pie',
+        disableTooltips: true,
+        sliceColors: ["#5da423", "#c60f13"]
+      });
+      $("#td-piechart").sparkline(data["pieChartToday"], {
+        type: 'pie',
+        disableTooltips: true,
+        sliceColors: ["#5da423", "#c60f13"]
+      });
     });
   };
 
   setInterval(function () {
     updateGraph();
-  }, 10*1000);
+  }, 15*1000);
 
   setInterval(function () {
     $.getJSON("/texts.json", function(data) {
