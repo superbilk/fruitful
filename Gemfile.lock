@@ -98,6 +98,7 @@ DEPENDENCIES
   bundler
   compass
   data_mapper
+  dm-aggregates
   dm-core
   dm-sqlite-adapter
   dm-timestamps

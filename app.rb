@@ -74,15 +74,29 @@ class App < Sinatra::Base
   get "/:url/graph.json" do |url|
     content_type :json
     @account = Account.first(:url => URI.escape(url))
-    limit = (URI.escape(params[:width]).to_i/5).ceil + 3
+    limit = ((URI.escape(params[:width]).to_i-46)/5).ceil + 3
     votes = Vote.all( :account => @account,
                       :order => [ :created_at.desc ],
-                      :limit => limit,
-                      :created_at.lt => Time.now-15)
+                      :limit => limit)
     @votes = Array.new
     votes.each do |vote|
       @votes << vote.vote
     end
+    @votes.to_json
+  end
+
+  get "/:url/piechart.json" do |url|
+    content_type :json
+    timeframe = URI.escape(params[:timeframe]).to_i
+    @account = Account.first(:url => URI.escape(url))
+    positive = Vote.all(:account => @account,
+                        :created_at.gte => Time.now-timeframe)
+                .count(:vote => 1)
+    negative = Vote.all(:account => @account,
+                        :created_at.gte => Time.now-timeframe)
+                .count(:vote => -1)
+    @votes = Array.new()
+    @votes << positive << negative
     @votes.to_json
   end
 

@@ -70,26 +70,35 @@ $(document).ready(function () {
         $("#tristategraph").sparkline(data, {
           type: 'tristate',
           disableTooltips: true,
-          posBarColor: "#457a1a",
-          negBarColor: "#970b0e",
-          height: "10px"
+          posBarColor: "#5da423",
+          negBarColor: "#c60f13",
+          barWidth: "8"
         });
-      }
+      };
     });
-
+    $.getJSON(window.location.pathname + "/piechart.json", {timeframe: 60*60*24*7}, function(data) {
+      if (data.length>0) {
+        $("#7d-piechart").sparkline(data, {
+          type: 'pie',
+          disableTooltips: true,
+          sliceColors: ["#5da423", "#c60f13"]
+        });
+      };
+    });
+    $.getJSON(window.location.pathname + "/piechart.json", {timeframe: 60*60*24*1}, function(data) {
+      if (data.length>0) {
+        $("#1d-piechart").sparkline(data, {
+          type: 'pie',
+          disableTooltips: true,
+          sliceColors: ["#5da423", "#c60f13"]
+        });
+      };
+    });
   };
 
   setInterval(function () {
-    // $.getJSON("/votes_count.json", function(data) {
-    //   $("#votes_count").text(data);
-    // });
-
-    // $.getJSON("/accounts_count.json", function(data) {
-    //   $("#accounts_count").text(data);
-    // });
-
     updateGraph();
-  }, 5000);
+  }, 10*1000);
 
   setInterval(function () {
     $.getJSON("/texts.json", function(data) {
