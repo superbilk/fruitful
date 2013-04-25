@@ -53,6 +53,7 @@ $(document).ready(function () {
 
   function enableButtons(){
     $("a").removeClass("disabled");
+    updateGraph();
   };
 
   function removeResultAlertDelayed(delaySeconds){
@@ -94,7 +95,7 @@ $(document).ready(function () {
 
   setInterval(function () {
     updateGraph();
-  }, 15*1000);
+  }, 5*60*1000);
 
   setInterval(function () {
     $.getJSON("/texts.json", function(data) {
