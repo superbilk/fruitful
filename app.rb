@@ -74,7 +74,7 @@ class App < Sinatra::Base
   get "/:url/graph.json" do |url|
     content_type :json
     account = Account.first(:url => URI.escape(url))
-    limit = ((URI.escape(params[:width]).to_i-145)/10).ceil
+    limit = ((URI.escape(params[:width]).to_i-155)/10).ceil
     data = Hash.new
     data["tristateGraph"] = tristateGraphData(account, limit)
     data["pieChartMonth"] = pieChartData(account, 30)
