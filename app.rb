@@ -77,9 +77,9 @@ class App < Sinatra::Base
     limit = ((URI.escape(params[:width]).to_i-125)/10).ceil
     data = Hash.new
     data["tristateGraph"] = tristateGraphData(account, limit)
-    data["pieChartWeek"] = pieChartData(account, 0, 8)
-    data["pieChartYesterday"] = pieChartData(account, 0, 2)
-    data["pieChartToday"] = pieChartData(account, nil, 1)
+    data["pieChartWeek"] = pieChartData(account, 7)
+    data["pieChartYesterday"] = pieChartData(account, 1)
+    data["pieChartToday"] = pieChartData(account)
     data.to_json
   end
 
@@ -123,21 +123,21 @@ private
     votes
   end
 
-  def pieChartData(account, from, to)
-    if from.nil?
-      positive = Vote.all(:account => account, :created_at.gte => Date.today-to ).count(:vote => 1)
-      negative = Vote.all(:account => account, :created_at.gte => Date.today-to ).count(:vote => -1)
+  def pieChartData(account, daysBefore=0)
+    if daysBefore==0 # today
+      positive = Vote.all(:account => account, :created_at.gte => Date.today ).count(:vote.gte => 1)
+      negative = Vote.all(:account => account, :created_at.gte => Date.today ).count(:vote.lte => -1)
     else
       positive = Vote.all(:account => account,
-                          :created_at.lte => Date.today-from,
-                          :created_at.gte => Date.today-to ).count(:vote => 1)
+                          :created_at.lt => Date.today,
+                          :created_at.gte => Date.today-(daysBefore) ).count(:vote.gte => 1)
       negative = Vote.all(:account => account,
-                          :created_at.lte => Date.today-from,
-                          :created_at.gte => Date.today-to ).count(:vote => -1)
+                          :created_at.lt => Date.today,
+                          :created_at.gte => Date.today-(daysBefore) ).count(:vote.lte => -1)
     end
     votes = Array.new()
     votes << positive << negative
-    votes = [1,0] if (positive == 0 && negative == 0)
+    votes = [1] if (positive == 0 && negative == 0)
     votes
   end
 end
