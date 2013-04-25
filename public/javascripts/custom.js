@@ -75,6 +75,11 @@ $(document).ready(function () {
         negBarColor: "#c60f13",
         barWidth: "8"
       });
+      $("#mo-piechart").sparkline(data["pieChartMonth"], {
+        type: 'pie',
+        disableTooltips: true,
+        sliceColors: ["#5da423", "#c60f13"]
+      });
       $("#wk-piechart").sparkline(data["pieChartWeek"], {
         type: 'pie',
         disableTooltips: true,
