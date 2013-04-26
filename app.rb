@@ -113,8 +113,8 @@ class App < Sinatra::Base
 private
 
   def getText(currentID = 0, lang = "en")
-    json = File.read('./models/texts.json')
-    texts = JSON.parse(json)
+    file = File.open('./models/texts.json', "r:UTF-8")
+    texts = JSON.parse(file.read)
     begin
       text = texts[lang].sample
     end while text["id"] == currentID.to_s
