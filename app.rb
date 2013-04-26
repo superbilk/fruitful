@@ -36,8 +36,8 @@ class App < Sinatra::Base
   end
 
   before do
-    cookies[:lang] ||= "en"
-    @text = getText(cookies[:text], cookies[:lang])
+    cookies[:language] ||= "en"
+    @text = getText(cookies[:text], cookies[:language])
   end
 
   get "/" do
@@ -58,7 +58,7 @@ class App < Sinatra::Base
 
   get "/texts.json" do
     content_type :json
-    text = getText(cookies[:text])
+    text = getText(cookies[:text], cookies[:language])
     cookies[:text] = text["id"]
     text.to_json
   end
@@ -95,9 +95,16 @@ class App < Sinatra::Base
     @account.update(:name => URI.escape(params[:editname]))
   end
 
+  post "/:url/language" do |url|
+    @account = Account.first(:url => URI.escape(url))
+    @account.update(:language => URI.escape(params[:language]))
+    cookies[:language] = URI.escape(params[:language])
+  end
+
   get "/:url" do |url|
     @account = Account.first(:url => URI.escape(url))
     cookies[:account] = URI.escape(url)
+    cookies[:language] = @account.language
     @account = createAccount(url) if @account.nil?
     haml :index, :layout_engine => :erb
   end

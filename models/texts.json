@@ -71,7 +71,7 @@
     },
     {
       "id":"2",
-      "question":"Wie ist Deine Tag?",
+      "question":"Wie ist Dein Tag?",
       "positive":"sonnig",
       "negative":"regnerisch"
     },

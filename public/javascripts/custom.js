@@ -27,6 +27,14 @@ $(document).ready(function () {
     return false;
   });
 
+  $("a.setLanguage").click(function(){
+    var posturl = window.location.pathname + "/language";
+    $.post(posturl, { language: $(this).data("language") }, function(){
+      updateText();
+    });
+    return false;
+  });
+
   $("a#editsave").click(function(){
     var posturl = window.location.pathname + "/edit";
     $.post(posturl, $("#editnameform").serialize(), function(){
@@ -99,16 +107,20 @@ $(document).ready(function () {
     });
   };
 
-  setInterval(function () {
-    updateGraph();
-  }, 5*60*1000);
-
-  setInterval(function () {
+  function updateText() {
     $.getJSON("/texts.json", function(data) {
       $("#question").text(data.question);
       $("#up").text(data.positive);
       $("#down").text(data.negative);
     });
+  };
+
+  setInterval(function () {
+    updateGraph();
+  }, 5*60*1000);
+
+  setInterval(function () {
+    updateText();
   }, 7*60*1000);
 
 });
