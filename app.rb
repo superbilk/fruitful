@@ -49,6 +49,12 @@ class App < Sinatra::Base
     redirect to("/")
   end
 
+  get "/:adminurl/raw.json" do |adminurl|
+    account = Account.first(:adminurl => URI.escape(adminurl))
+    raw = account.votes.all()
+    raw.to_json
+  end
+
   get "/texts.json" do
     content_type :json
     text = getText(cookies[:text].to_s)
