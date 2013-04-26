@@ -36,7 +36,8 @@ class App < Sinatra::Base
   end
 
   before do
-    @text = getText(cookies[:text])
+    cookies[:lang] ||= "en"
+    @text = getText(cookies[:text], cookies[:lang])
   end
 
   get "/" do
@@ -57,7 +58,7 @@ class App < Sinatra::Base
 
   get "/texts.json" do
     content_type :json
-    text = getText(cookies[:text].to_s)
+    text = getText(cookies[:text])
     cookies[:text] = text["id"]
     text.to_json
   end
@@ -103,11 +104,11 @@ class App < Sinatra::Base
 
 private
 
-  def getText(currentID = 0)
+  def getText(currentID = 0, lang = "en")
     json = File.read('./models/texts.json')
     texts = JSON.parse(json)
     begin
-      text = texts.sample
+      text = texts[lang].sample
     end while text["id"] == currentID.to_s
     return text
   end

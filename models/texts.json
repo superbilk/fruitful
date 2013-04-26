@@ -1,59 +1,103 @@
-[
-
-  {
-    "id":"1",
-    "question":"How is it going?",
-    "positive":"awesome",
-    "negative":"bummer"
-  },
-  // {
-  //   "id":"2",
-  //   "question":"Have you shipped today?",
-  //   "positive":"YEAH!",
-  //   "negative":"not yet"
-  // },
-  {
-    "id":"3",
-    "question":"How is it going?",
-    "positive":"great day",
-    "negative":"bummer"
-  },
-  // {
-  //   "id":"4",
-  //   "question":"build server?",
-  //   "positive":"green",
-  //   "negative":"red"
-  // },
-  {
-    "id":"5",
-    "question":"How is your day going?",
-    "positive":"sunny",
-    "negative":"rainy"
-  },
-  {
-    "id":"6",
-    "question":"Happy?",
-    "positive":":-)",
-    "negative":":-("
-  },
-  {
-    "id":"7",
-    "question":"Are you smiling?",
-    "positive":"Yes",
-    "negative":"No"
-  },
-  {
-    "id":"8",
-    "question":"Have you laughed today?",
-    "positive":"Yes",
-    "negative":"No"
-  }
-//  ,
-//  {
-//    "id":"9",
-//    "question":"How are you holding up?",
-//    "positive":"",
-//    "negative":""
-//  }
-
-]
+{
+  "en": [
+    {
+      "id":"1",
+      "question":"How is it going?",
+      "positive":"awesome",
+      "negative":"bummer"
+    },
+    // {
+    //   "id":"2",
+    //   "question":"Have you shipped today?",
+    //   "positive":"YEAH!",
+    //   "negative":"not yet"
+    // },
+    {
+      "id":"3",
+      "question":"How is it going?",
+      "positive":"great day",
+      "negative":"bummer"
+    },
+    // {
+    //   "id":"4",
+    //   "question":"build server?",
+    //   "positive":"green",
+    //   "negative":"red"
+    // },
+    {
+      "id":"5",
+      "question":"How is your day going?",
+      "positive":"sunny",
+      "negative":"rainy"
+    },
+    {
+      "id":"6",
+      "question":"Happy?",
+      "positive":":-)",
+      "negative":":-("
+    },
+    {
+      "id":"7",
+      "question":"Are you smiling?",
+      "positive":"Yes",
+      "negative":"No"
+    },
+    {
+      "id":"8",
+      "question":"Have you laughed today?",
+      "positive":"Yes",
+      "negative":"No"
+    },
+  //  ,
+  //  {
+  //    "id":"9",
+  //    "question":"How are you holding up?",
+  //    "positive":"",
+  //    "negative":""
+  //  }
+    {
+      "id":"10",
+      "question":"The glass is...",
+      "positive":"half full",
+      "negative":"half empty"
+    }
+  ],
+  "de": [
+    {
+      "id":"1",
+      "question":"Wie läuft's?",
+      "positive":"Großartig",
+      "negative":"Geht so"
+    },
+    {
+      "id":"2",
+      "question":"Wie ist Deine Tag?",
+      "positive":"sonnig",
+      "negative":"regnerisch"
+    },
+    {
+      "id":"3",
+      "question":"Glücklich?",
+      "positive":":-)",
+      "negative":":-("
+    },
+    {
+      "id":"4",
+      "question":"Lächelst Du?",
+      "positive":"Ja",
+      "negative":"Nein"
+    },
+    {
+      "id":"5",
+      "question":"Hast Du heute schon gelacht?",
+      "positive":"Ja",
+      "negative":"Nein"
+    },
+    {
+      "id":"6",
+      "question":"Das Glas ist...",
+      "positive":"halb voll",
+      "negative":"halb leer"
+    }
+  ]
+}
