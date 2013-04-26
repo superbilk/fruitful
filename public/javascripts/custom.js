@@ -78,22 +78,22 @@ $(document).ready(function () {
       $("#mo-piechart").sparkline(data["pieChartMonth"], {
         type: 'pie',
         disableTooltips: true,
-        sliceColors: ["#5da423", "#c60f13"]
+        sliceColors: ["#5da423", "#c60f13", "#909090"]
       });
       $("#wk-piechart").sparkline(data["pieChartWeek"], {
         type: 'pie',
         disableTooltips: true,
-        sliceColors: ["#5da423", "#c60f13"]
+        sliceColors: ["#5da423", "#c60f13", "#909090"]
       });
       $("#yd-piechart").sparkline(data["pieChartYesterday"], {
         type: 'pie',
         disableTooltips: true,
-        sliceColors: ["#5da423", "#c60f13"]
+        sliceColors: ["#5da423", "#c60f13", "#909090"]
       });
       $("#td-piechart").sparkline(data["pieChartToday"], {
         type: 'pie',
         disableTooltips: true,
-        sliceColors: ["#5da423", "#c60f13"]
+        sliceColors: ["#5da423", "#c60f13", "#909090"]
       });
     });
   };

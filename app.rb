@@ -129,6 +129,7 @@ private
     if daysBefore==0 # today
       positive = Vote.all(:account => account, :created_at.gte => Date.today ).count(:vote.gte => 1)
       negative = Vote.all(:account => account, :created_at.gte => Date.today ).count(:vote.lte => -1)
+      zero     = Vote.all(:account => account, :created_at.gte => Date.today ).count(:vote => 0)
     else
       positive = Vote.all(:account => account,
                           :created_at.lt => Date.today,
@@ -136,10 +137,13 @@ private
       negative = Vote.all(:account => account,
                           :created_at.lt => Date.today,
                           :created_at.gte => Date.today-(daysBefore) ).count(:vote.lte => -1)
+      zero     = Vote.all(:account => account,
+                          :created_at.lt => Date.today,
+                          :created_at.gte => Date.today-(daysBefore) ).count(:vote => 0)
     end
     votes = Array.new()
-    votes << positive << negative
-    votes = [1] if (positive == 0 && negative == 0)
+    votes << positive << negative << zero
+    votes = [0,0,1] if (positive == 0 && negative == 0 && zero == 0)
     votes
   end
 end
