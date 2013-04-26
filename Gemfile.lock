@@ -85,8 +85,6 @@ GEM
       tilt (~> 1.3)
     sinatra-partial (0.4.0)
       sinatra
-    sinatra-subdomain (0.1.2)
-      sinatra
     stringex (1.5.1)
     tilt (1.3.7)
     uuidtools (2.1.3)
@@ -111,5 +109,4 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   sinatra-partial
-  sinatra-subdomain
   zurb-foundation
