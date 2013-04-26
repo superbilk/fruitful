@@ -65,8 +65,8 @@
   "de": [
     {
       "id":"1",
-      "question":"Wie laeuft's?",
-      "positive":"Grossartig",
+      "question":"Wie läuft's?",
+      "positive":"Großartig",
       "negative":"Geht so"
     },
     {
@@ -77,13 +77,13 @@
     },
     {
       "id":"3",
-      "question":"Gluecklich?",
+      "question":"Glücklich?",
       "positive":":-)",
       "negative":":-("
     },
     {
       "id":"4",
-      "question":"Laechelst Du?",
+      "question":"Lächelst Du?",
       "positive":"Ja",
       "negative":"Nein"
     },
