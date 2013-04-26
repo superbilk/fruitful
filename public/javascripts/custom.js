@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-  $(document).foundation();
+  $(this).foundation();
   updateGraph();
 
   $("a#up").click(function(){
@@ -73,6 +73,7 @@ $(document).ready(function () {
         disableTooltips: true,
         posBarColor: "#5da423",
         negBarColor: "#c60f13",
+        zeroBarColor: "#909090",
         barWidth: "8"
       });
       $("#mo-piechart").sparkline(data["pieChartMonth"], {
@@ -108,7 +109,7 @@ $(document).ready(function () {
       $("#up").text(data.positive);
       $("#down").text(data.negative);
     });
-  }, 25*60*1000);
+  }, 7*60*1000);
 
 });
 
