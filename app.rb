@@ -36,7 +36,6 @@ class App < Sinatra::Base
   end
 
   before do
-    cookies[:text] ||= "1"
     @text = getText(cookies[:text])
   end
 
@@ -46,7 +45,7 @@ class App < Sinatra::Base
   end
 
   get "/:url/logout" do
-    cookies[:account] = nil
+    cookies.clear
     redirect to("/")
   end
 
@@ -98,7 +97,7 @@ class App < Sinatra::Base
 
 private
 
-  def getText(currentID = 1)
+  def getText(currentID = 0)
     json = File.read('./models/texts.json')
     texts = JSON.parse(json)
     begin
@@ -108,6 +107,7 @@ private
   end
 
   def createAccount(url=nil)
+    cookies.clear
     url ||= PasswordGenerator.new.generate(8)
     cookies[:account] = url
     Account.create(:url => url, :name => url)
