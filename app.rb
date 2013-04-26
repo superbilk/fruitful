@@ -64,17 +64,10 @@ class App < Sinatra::Base
     text.to_json
   end
 
-  post "/:url/up" do |url|
-    @account = Account.first(:url => URI.escape(url))
-    vote = Vote.new(:vote => 1)
-    vote.account = @account
-    vote.save
-  end
-
-  post "/:url/down" do |url|
-    @account = Account.first(:url => URI.escape(url))
-    vote = Vote.new(:vote => -1)
-    vote.account = @account
+  post "/:url/vote" do |url|
+    account = Account.first(:url => URI.escape(url))
+    vote = Vote.new(:vote => URI.escape(params[:vote]).to_i)
+    vote.account = account
     vote.save
   end
 

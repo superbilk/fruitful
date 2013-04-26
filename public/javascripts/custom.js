@@ -3,25 +3,14 @@ $(document).ready(function () {
   $(this).foundation();
   updateGraph();
 
-  $("a#up").click(function(){
+  $("a.vote").click(function(){
     if ($(this).hasClass('disabled')) {
       return false;
     }
-    $("a").addClass("disabled");
-    $('#resultmodalpositive').foundation('reveal', 'open');
-    $.post(window.location.pathname + "/up");
-    enableButtonsDelayed(5);
-    removeResultAlertDelayed(2);
-    return false;
-  });
-
-  $("a#down").click(function(){
-    if ($(this).hasClass('disabled')) {
-      return false;
-    }
-    $("a").addClass("disabled");
-    $('#resultmodalnegative').foundation('reveal', 'open');
-    $.post(window.location.pathname + "/down");
+    $(this).addClass("disabled");
+    $('#resultmodal').foundation('reveal', 'open');
+    $.post(window.location.pathname + "/vote", { vote: $(this).data("vote") } );
+    console.log($(this).data("vote"));
     enableButtonsDelayed(5);
     removeResultAlertDelayed(2);
     return false;
@@ -69,8 +58,7 @@ $(document).ready(function () {
   };
 
   function removeResultAlert(){
-    $('#resultmodalpositive').foundation('reveal', 'close');
-    $('#resultmodalnegative').foundation('reveal', 'close');
+    $('#resultmodal').foundation('reveal', 'close');
   };
 
   function updateGraph(){

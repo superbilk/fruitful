@@ -2,19 +2,14 @@
   = @text["question"]
 %ul.small-block-grid-1
   %li
-    %a.large.button.expand.success#up
+    %a.large.button.expand.success.vote{ :href => "", :data => { :vote => "1" } }
       = @text["positive"]
   %li
-    %a.large.button.expand.alert#down
+    %a.large.button.expand.alert.vote{ :href => "", :data => { :vote => "-1" } }
       = @text["negative"]
 
-#resultmodalpositive.reveal-modal
-  %h2 Awesome.
-  %p.lead Thank you for your participation.
-  %a.close-reveal-modal ×
-
-#resultmodalnegative.reveal-modal
-  %h2 Bummer.
+#resultmodal.reveal-modal
+  %h2 Check.
   %p.lead Thank you for your participation.
   %a.close-reveal-modal ×
 
