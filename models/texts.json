@@ -6,24 +6,24 @@
     "positive":"awesome",
     "negative":"bummer"
   },
-  {
-    "id":"2",
-    "question":"Have you shipped today?",
-    "positive":"YEAH!",
-    "negative":"not yet"
-  },
+  // {
+  //   "id":"2",
+  //   "question":"Have you shipped today?",
+  //   "positive":"YEAH!",
+  //   "negative":"not yet"
+  // },
   {
     "id":"3",
     "question":"How is it going?",
     "positive":"great day",
     "negative":"bummer"
   },
-  {
-    "id":"4",
-    "question":"build server?",
-    "positive":"green",
-    "negative":"red"
-  },
+  // {
+  //   "id":"4",
+  //   "question":"build server?",
+  //   "positive":"green",
+  //   "negative":"red"
+  // },
   {
     "id":"5",
     "question":"How is your day?",
@@ -39,6 +39,12 @@
   {
     "id":"7",
     "question":"Are you smiling?",
+    "positive":"Yes",
+    "negative":"No"
+  },
+  {
+    "id":"8",
+    "question":"Have you laughed today?",
     "positive":"Yes",
     "negative":"No"
   }
