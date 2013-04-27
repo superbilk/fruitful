@@ -70,7 +70,6 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-    rake (10.0.4)
     sass (3.2.7)
     sinatra (1.4.2)
       rack (~> 1.5, >= 1.5.2)
@@ -105,7 +104,6 @@ DEPENDENCIES
   dm-validations
   haml
   json
-  rake
   sinatra
   sinatra-contrib
   sinatra-partial
