@@ -98,10 +98,15 @@ $(document).ready(function () {
   function updateText() {
     $.getJSON("/texts.json", function(data) {
       $("#question").text(data.question);
-      $("#up").text(data.positive);
-      $("#down").text(data.negative);
+      $("#positive").text(data.positive);
+      $("#negative").text(data.negative);
     });
   };
+
+  // remove URL bar from mobile devices
+  /mobile/i.test(navigator.userAgent) && !window.location.hash && setTimeout(function () {
+    window.scrollTo(0, 1);
+  }, 500);
 
   setInterval(function () {
     updateGraph();
@@ -113,7 +118,3 @@ $(document).ready(function () {
 
 });
 
-// remove URL bar from mobile devices
-/mobile/i.test(navigator.userAgent) && !window.location.hash && setTimeout(function () {
-  window.scrollTo(0, 1);
-}, 500);
