@@ -48,18 +48,47 @@
       "positive":"Yes",
       "negative":"No"
     },
-  //  ,
-  //  {
-  //    "id":"9",
-  //    "question":"How are you holding up?",
-  //    "positive":"",
-  //    "negative":""
-  //  }
+   {
+      "id":"9",
+      "question":"How are you holding up?",
+      "positive":"Well",
+      "negative":"Badly"
+    },
     {
       "id":"10",
       "question":"The glass is...",
       "positive":"half full",
       "negative":"half empty"
+    },
+    {
+      "id":"11",
+      "question":"How would you rate today?",
+      "positive":"Great",
+      "negative":"Not so good"
+    },
+    {
+      "id":"12",
+      "question":"How are you holding up?",
+      "positive":"Well",
+      "negative":"Not so well"
+    },
+    {
+      "id":"13",
+      "question":"How's tricks?",
+      "positive":"Great, thanks",
+      "negative":"Could be better"
+    },
+    {
+      "id":"14",
+      "question":"What's going on?",
+      "positive":"Good stuff",
+      "negative":"Bad stuff"
+    },
+    {
+      "id":"15",
+      "question":"How's life treating you?",
+      "positive":"Really well",
+      "negative":"Not so well
     }
   ],
   "de": [
