@@ -1,0 +1,36 @@
+= Startscreen
+o Login with XING
+o OAuth foo
+
+= Screen 1 / Eingabe
+o 4 Smileys
+o fröhlich
+o egal
+o traurig
+o wütend
+o nur ein Wert pro Tag
+o nur an dem Tag änderbar
+o kein editieren
+
+= Screen 2 / Statistik
+o Firmenweit (anhand der Domain)
+o Gmail etc blocken
+o 30 Tage übersicht
+o letzte 4 Quartale
+
+= Screen 3 / Kollegen einladen
+o alle bei der gleichen Firma
+o gleiche Domain
+o via E-Mail
+
+
+= Notifications?
+o E-Mail
+o Kollegen pingen
+
+
+
+
+= Type
+o User (Alle)
+o Admin-User
