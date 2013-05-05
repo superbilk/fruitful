@@ -3,6 +3,7 @@ require 'bundler/setup'
 Bundler.require(:default)
 
 require "sinatra/cookies"
+require "sinatra/json"
 require 'securerandom'
 require 'date'
 
@@ -10,6 +11,7 @@ Dir.glob(File.join("{lib,models,controllers,routes}", "*.rb")).each{|f| require 
 
 class App < Sinatra::Base
   register Sinatra::Partial
+  helpers Sinatra::JSON
   helpers Sinatra::Cookies
 
   configure do
@@ -54,15 +56,14 @@ class App < Sinatra::Base
 
   get "/:adminurl/raw.json" do |adminurl|
     account = Account.first(:adminurl => URI.escape(adminurl))
-    raw = account.votes.all()
-    raw.to_json
+    data = account.votes.all
+    json data
   end
 
   get "/texts.json" do
-    content_type :json
     text = getText(cookies[:text], cookies[:language])
     cookies[:text] = text["id"]
-    text.to_json
+    json text
   end
 
   post "/:url/vote" do |url|
@@ -73,17 +74,16 @@ class App < Sinatra::Base
   end
 
   get "/:url/graph.json" do |url|
-    content_type :json
     account = Account.first(:url => URI.escape(url))
     limit = ((URI.escape(params[:width]).to_i-180)/10).ceil
     data = Hash.new
-    data["weekdayBarchart"] = weekdayBarchartData(account)
-    data["tristategraph"] = tristategraphData(account, limit)
-    data["piechartMonth"] = piechartData(account, 30)
-    data["piechartWeek"] = piechartData(account, 7)
+    data["weekdayBarchart"]   = weekdayBarchartData(account)
+    data["tristategraph"]     = tristategraphData(account, limit)
+    data["piechartMonth"]     = piechartData(account, 30)
+    data["piechartWeek"]      = piechartData(account, 7)
     data["piechartYesterday"] = piechartData(account, 1)
-    data["piechartToday"] = piechartData(account)
-    data.to_json
+    data["piechartToday"]     = piechartData(account)
+    json data
   end
 
   post "/:url/edit" do |url|
