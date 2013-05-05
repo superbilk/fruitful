@@ -25,13 +25,17 @@
     <div id="responsivebox" class="large-6 large-centered columns">
       <%= yield %>
       <p>
+        <span class="hiddenchart" style="display: none;">Last </span>
         <span id="tristategraph">Click above and statistics will show up in a few seconds.</span>
-        <span id="piecharts" class="pull right" style="display: none;">
+        <span id="piecharts" class="pull right hiddenchart" style="display: none;">
           <span id="td-piechart">&nbsp;</span>td
           <span id="yd-piechart">&nbsp;</span>yd
           <span id="wk-piechart">&nbsp;</span>wk
           <span id="mo-piechart">&nbsp;</span>mo
         </span>
+      </p>
+      <p class="hiddenchart" style="display: none;">
+        Mon <span id="weekday-barchart">More statistics will show up in a few seconds.</span> Sun
       </p>
     </div>
   </div>

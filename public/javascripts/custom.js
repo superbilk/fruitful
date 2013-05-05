@@ -10,7 +10,6 @@ $(document).ready(function () {
     $(this).addClass("disabled");
     $('#resultmodal').foundation('reveal', 'open');
     $.post(window.location.pathname + "/vote", { vote: $(this).data("vote") } );
-    console.log($(this).data("vote"));
     enableButtonsDelayed(5);
     removeResultAlertDelayed(2);
     return false;
@@ -63,8 +62,8 @@ $(document).ready(function () {
 
   function updateGraph(){
     $.getJSON(window.location.pathname + "/graph.json", { width: $("#responsivebox").width() }, function(data) {
-      $("#piecharts").show();
-      $("#tristategraph").sparkline(data["tristateGraph"], {
+      $(".hiddenchart").show();
+      $("#tristategraph").sparkline(data["tristategraph"], {
         type: 'tristate',
         disableTooltips: true,
         posBarColor: "#5da423",
@@ -72,22 +71,30 @@ $(document).ready(function () {
         zeroBarColor: "#909090",
         barWidth: "8"
       });
-      $("#mo-piechart").sparkline(data["pieChartMonth"], {
+      $("#weekday-barchart").sparkline(data["weekdayBarchart"], {
+        type: 'bar',
+        disableTooltips: true,
+        zeroColor: "#909090",
+        nullColor: "#909090",
+        stackedBarColor: ["#c60f13", "#5da423"],
+        barWidth: "8"
+      });
+      $("#mo-piechart").sparkline(data["piechartMonth"], {
         type: 'pie',
         disableTooltips: true,
         sliceColors: ["#5da423", "#c60f13", "#909090"]
       });
-      $("#wk-piechart").sparkline(data["pieChartWeek"], {
+      $("#wk-piechart").sparkline(data["piechartWeek"], {
         type: 'pie',
         disableTooltips: true,
         sliceColors: ["#5da423", "#c60f13", "#909090"]
       });
-      $("#yd-piechart").sparkline(data["pieChartYesterday"], {
+      $("#yd-piechart").sparkline(data["piechartYesterday"], {
         type: 'pie',
         disableTooltips: true,
         sliceColors: ["#5da423", "#c60f13", "#909090"]
       });
-      $("#td-piechart").sparkline(data["pieChartToday"], {
+      $("#td-piechart").sparkline(data["piechartToday"], {
         type: 'pie',
         disableTooltips: true,
         sliceColors: ["#5da423", "#c60f13", "#909090"]
