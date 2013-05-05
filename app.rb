@@ -126,7 +126,7 @@ private
   def tristategraphData(account, limit)
     allvotes = Vote.all(  :account => account,
                           :order => [ :created_at.desc ],
-                          :created_at.gte => Date.today,
+                          # :created_at.gte => Date.today,
                           :limit => limit)
     votes = Array.new
     allvotes.each do |vote|
