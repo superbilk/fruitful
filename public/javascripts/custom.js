@@ -79,6 +79,11 @@ $(document).ready(function () {
         stackedBarColor: ["#c60f13", "#5da423"],
         barWidth: "8"
       });
+      $("#activity-barchart").sparkline(data["activityBarchart"], {
+        type: 'bar',
+        disableTooltips: true,
+        barWidth: "8"
+      });
       $("#mo-piechart").sparkline(data["piechartMonth"], {
         type: 'pie',
         disableTooltips: true,

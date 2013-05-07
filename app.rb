@@ -78,6 +78,7 @@ class App < Sinatra::Base
     limit = ((URI.escape(params[:width]).to_i-200)/10).ceil
     data = Hash.new
     data["weekdayBarchart"]   = weekdayBarchartData(account)
+    data["activityBarchart"]      = activityBarchartData(account)
     data["tristategraph"]     = tristategraphData(account, limit)
     data["piechartMonth"]     = piechartData(account, 30)
     data["piechartWeek"]      = piechartData(account, 7)
@@ -194,6 +195,49 @@ private
                (data["Saturday"][:positive].to_f/data["Saturday"][:count].to_f*100.0).round ]
     votes << [ (data["Sunday"][:negative].to_f/data["Sunday"][:count].to_f*100.0).round,
                (data["Sunday"][:positive].to_f/data["Sunday"][:count].to_f*100.0).round ]
+    votes
+  end
+
+  def activityBarchartData(account)
+
+    dayrange = (Date.today-account.votes.first.created_at).to_i
+
+    if account.votes.empty? || dayrange == 0
+      return [0,0,0,0,0,0,0]
+    end
+
+    data = Hash.new { |hash, key| hash[key] = {} }
+
+    (Date::DAYNAMES).each do |dayname|
+      data[dayname][:positive] = 0
+      data[dayname][:negative] = 0
+      data[dayname][:zero] = 0
+      data[dayname][:count] = 0
+    end
+
+    votes = Vote.all(:account => account, :created_at.gte => Date.today-dayrange)
+
+    votes.each do |vote|
+      if vote.vote == 1
+        data[vote.created_at.strftime("%A")][:positive] += 1
+        data[vote.created_at.strftime("%A")][:count] += 1
+      elsif vote.vote == -1
+        data[vote.created_at.strftime("%A")][:negative] += 1
+        data[vote.created_at.strftime("%A")][:count] += 1
+      elsif vote.vote == 0
+        data[vote.created_at.strftime("%A")][:zero] += 1
+        data[vote.created_at.strftime("%A")][:count] += 1
+      end
+    end
+
+    votes = []
+    votes << data["Monday"][:count]
+    votes << data["Tuesday"][:count]
+    votes << data["Wednesday"][:count]
+    votes << data["Thursday"][:count]
+    votes << data["Friday"][:count]
+    votes << data["Saturday"][:count]
+    votes << data["Sunday"][:count]
     votes
   end
 
