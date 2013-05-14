@@ -63,6 +63,7 @@ $(document).ready(function () {
   function updateGraph(){
     $.getJSON(window.location.pathname + "/graph.json", { width: $("#responsivebox").width() }, function(data) {
       $(".hiddenchart").show();
+      console.log(data);
       $("#tristategraph").sparkline(data["tristategraph"], {
         type: 'tristate',
         disableTooltips: true,
