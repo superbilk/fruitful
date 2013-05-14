@@ -181,6 +181,8 @@ private
     end
 
     votes = []
+    votes << [ (data["Sunday"][:negative].to_f/data["Sunday"][:count].to_f*100.0).round,
+               (data["Sunday"][:positive].to_f/data["Sunday"][:count].to_f*100.0).round ]
     votes << [ (data["Monday"][:negative].to_f/data["Monday"][:count].to_f*100.0).round,
                (data["Monday"][:positive].to_f/data["Monday"][:count].to_f*100.0).round ]
     votes << [ (data["Tuesday"][:negative].to_f/data["Tuesday"][:count].to_f*100.0).round,
@@ -193,8 +195,6 @@ private
                (data["Friday"][:positive].to_f/data["Friday"][:count].to_f*100.0).round ]
     votes << [ (data["Saturday"][:negative].to_f/data["Saturday"][:count].to_f*100.0).round,
                (data["Saturday"][:positive].to_f/data["Saturday"][:count].to_f*100.0).round ]
-    votes << [ (data["Sunday"][:negative].to_f/data["Sunday"][:count].to_f*100.0).round,
-               (data["Sunday"][:positive].to_f/data["Sunday"][:count].to_f*100.0).round ]
     votes
   end
 
