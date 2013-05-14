@@ -78,7 +78,7 @@ class App < Sinatra::Base
     limit = ((URI.escape(params[:width]).to_i-200)/10).ceil
     data = Hash.new
     data["weekdayBarchart"]   = weekdayBarchartData(account)
-    data["activityBarchart"]      = activityBarchartData(account)
+    data["activityBarchart"]  = activityBarchartData(account)
     data["tristategraph"]     = tristategraphData(account, limit)
     data["piechartMonth"]     = piechartData(account, 30)
     data["piechartWeek"]      = piechartData(account, 7)
@@ -200,45 +200,18 @@ private
 
   def activityBarchartData(account)
 
-    dayrange = (Date.today-account.votes.first.created_at).to_i
-
-    if account.votes.empty? || dayrange == 0
+    if account.votes.empty?
       return [0,0,0,0,0,0,0]
+    else
+      query = <<-END.unindent
+        SELECT count(*)
+        FROM votes
+        WHERE account_id = #{account.id}
+        GROUP BY strftime("%w", DATE(created_at))
+      END
+      data = repository(:default).adapter.select(query)
     end
 
-    data = Hash.new { |hash, key| hash[key] = {} }
-
-    (Date::DAYNAMES).each do |dayname|
-      data[dayname][:positive] = 0
-      data[dayname][:negative] = 0
-      data[dayname][:zero] = 0
-      data[dayname][:count] = 0
-    end
-
-    votes = Vote.all(:account => account, :created_at.gte => Date.today-dayrange)
-
-    votes.each do |vote|
-      if vote.vote == 1
-        data[vote.created_at.strftime("%A")][:positive] += 1
-        data[vote.created_at.strftime("%A")][:count] += 1
-      elsif vote.vote == -1
-        data[vote.created_at.strftime("%A")][:negative] += 1
-        data[vote.created_at.strftime("%A")][:count] += 1
-      elsif vote.vote == 0
-        data[vote.created_at.strftime("%A")][:zero] += 1
-        data[vote.created_at.strftime("%A")][:count] += 1
-      end
-    end
-
-    votes = []
-    votes << data["Monday"][:count]
-    votes << data["Tuesday"][:count]
-    votes << data["Wednesday"][:count]
-    votes << data["Thursday"][:count]
-    votes << data["Friday"][:count]
-    votes << data["Saturday"][:count]
-    votes << data["Sunday"][:count]
-    votes
   end
 
   def piechartData(account, daysBefore=0)
@@ -261,5 +234,14 @@ private
     votes << positive << negative << zero
     votes = [0,0,1] if (positive == 0 && negative == 0 && zero == 0)
     votes
+  end
+end
+
+class String
+  # Strip leading whitespace from each line that is the same as the
+  # amount of whitespace on the first line of the string.
+  # Leaves _additional_ indentation on later lines intact.
+  def unindent
+    gsub /^#{self[/\A\s*/]}/, ''
   end
 end
