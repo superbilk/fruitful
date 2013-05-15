@@ -237,6 +237,7 @@ private
         GROUP BY DATE(created_at)
       END
       data = repository(:default).adapter.select(query)
+      data.reverse!
     end
   end
 end
