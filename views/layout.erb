@@ -57,7 +57,7 @@
   </footer>
 
   <%= partial(:foundationjs, :template_engine => :erb) %>
-  <%= partial(:livereload, :template_engine => :erb) %>
+  <%= partial(:livereload, :template_engine => :erb) if Sinatra::Base.development? %>
 </body>
 </html>
 
