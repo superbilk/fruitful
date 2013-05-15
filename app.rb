@@ -80,6 +80,8 @@ class App < Sinatra::Base
     data["weekdayBarchart"]    = weekdayBarchartData(account)
     data["activityBarchart"]   = activityBarchartData(account)
     data["tristategraph"]      = tristategraphData(account, limit)
+    data["historyLinechart"]   = historyLinechartData(account)
+    # data["historyBarchart"]    = historyBarchartData(account)
     data["piechartMonth"]      = piechartData(account, 30)
     data["piechartWeek"]       = piechartData(account, 7)
     data["piechartYesterday"]  = piechartData(account, 1)
@@ -129,21 +131,26 @@ private
                           :order => [ :created_at.desc ],
                           # :created_at.gte => Date.today,
                           :limit => limit)
-    votes = Array.new
-    allvotes.each do |vote|
-      votes << vote.vote
+
+    if allvotes.empty?
+      votes = [0,0,0]
+    else
+      votes = Array.new
+      allvotes.each do |vote|
+        votes << vote.vote
+      end
     end
     votes
   end
 
   def weekdayBarchartData(account)
 
-    dayrange = (Date.today-account.votes.first.created_at).to_i
-    votes = Vote.all(:account => account, :created_at.gte => Date.today-dayrange)
-
-    if account.votes.empty? || dayrange == 0
+    if account.votes.empty? || (Date.today-account.votes.first.created_at).to_i == 0
       return [0,0,0,0,0,0,0]
     end
+
+    dayrange = (Date.today-account.votes.first.created_at).to_i
+    votes = Vote.all(:account => account, :created_at.gte => Date.today-dayrange)
 
     data = Hash.new { |hash, key| hash[key] = {} }
 
@@ -216,6 +223,21 @@ private
     votes << positive << negative << zero
     votes = [0,0,1] if (positive == 0 && negative == 0 && zero == 0)
     votes
+  end
+
+  def historyLinechartData(account)
+
+    if account.votes.empty?
+      return [0,0,0,0,0,0,0]
+    else
+      query = <<-END.unindent
+        SELECT count(*)
+        FROM votes
+        WHERE account_id = #{account.id}
+        GROUP BY DATE(created_at)
+      END
+      data = repository(:default).adapter.select(query)
+    end
   end
 end
 

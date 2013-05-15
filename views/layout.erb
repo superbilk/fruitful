@@ -35,6 +35,10 @@
         </span>
       </p>
       <p class="hiddenchart" style="display: none;">
+        Activity <span id="history-linechart">More statistics will show up in a few seconds.</span>
+
+      </p>
+      <p class="hiddenchart" style="display: none;">
         <span class="pull left">Sun <span id="weekday-barchart">More statistics will show up in a few seconds.</span> Sat</span>
         <span class="pull right"># Sun <span id="activity-barchart"></span> Sat</span>
       </p>
@@ -53,6 +57,7 @@
   </footer>
 
   <%= partial(:foundationjs, :template_engine => :erb) %>
+  <%= partial(:livereload, :template_engine => :erb) %>
 </body>
 </html>
 

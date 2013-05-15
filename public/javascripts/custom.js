@@ -64,6 +64,25 @@ $(document).ready(function () {
     $.getJSON(window.location.pathname + "/graph.json", { width: $("#responsivebox").width() }, function(data) {
       $(".hiddenchart").show();
       console.log(data);
+      $("#history-linechart").sparkline(data["weekdayBarchart"], {
+        type: 'bar',
+        disableTooltips: true,
+        zeroColor: "#909090",
+        nullColor: "#909090",
+        stackedBarColor: ["#c60f13", "#5da423"],
+        barWidth: "8"
+      });
+      $("#history-linechart").sparkline(data["historyLinechart"], {
+        type: 'line',
+        disableTooltips: true,
+        highlightSpotColor: null,
+        highlightLineColor: null,
+        minSpotColor: false,
+        maxSpotColor: false,
+        spotColor: false,
+        fillColor: false,
+        lineWidth: 1
+      });
       $("#tristategraph").sparkline(data["tristategraph"], {
         type: 'tristate',
         disableTooltips: true,
