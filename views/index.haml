@@ -21,27 +21,18 @@
   %a.close-reveal-modal ×
 
 #logoutmodal.reveal-modal
-  %h2 Attention!
-  %p.lead
-    To come back you need the following URL:
-    %b
-      = request.url
+  %h2= t.logoutmodal.title
+  %p.lead= t.logoutmodal.lead request.url
   %p
-    %a.small.alert.button#logout{:href=> "#{@account.url}/logout"} Proceed logout
+    %a.small.alert.button#logout{:href=> "#{@account.url}/logout"}= t.logoutmodal.button
   %a.close-reveal-modal ×
 
 #proplanmodal.reveal-modal
-  %h2 Go Pro!
-  %p.lead
-    Get access to all data to create your own statistics.<br />
-    %small
-      One simple REST-JSON API call.
-  %p.lead
-    Ask your own questions for a more personal touch.
-  %p.lead
-    Delete / edit entries to amend errors.
-  %p
-    Contact us: <a href="https://twitter.com/happinessmetric" target="_blank">@happinessmetric</a>
+  %h2= t.proplanmodal.title
+  %p.lead1= t.proplanmodal.lead1
+  %p.lead2= t.proplanmodal.lead2
+  %p.lead3= t.proplanmodal.lead3
+  %p= t.proplanmodal.contact
   %a.close-reveal-modal ×
 
 #aboutmodal.reveal-modal

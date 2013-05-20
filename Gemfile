@@ -18,3 +18,5 @@ gem 'dm-validations'
 gem 'dm-aggregates'
 
 gem 'json'
+
+gem 'sinatra-r18n'

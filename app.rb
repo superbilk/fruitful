@@ -11,6 +11,7 @@ Dir.glob(File.join("{lib,models,controllers,routes}", "*.rb")).each{|f| require 
 
 class App < Sinatra::Base
   register Sinatra::Partial
+  register Sinatra::R18n
   helpers Sinatra::JSON
   helpers Sinatra::Cookies
 
@@ -41,6 +42,7 @@ class App < Sinatra::Base
 
   before do
     cookies[:language] ||= "en"
+    session[:locale] = params[:locale] if params[:locale]
     @text = getText(cookies[:text], cookies[:language])
   end
 

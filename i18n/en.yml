@@ -1,0 +1,30 @@
+page:
+  greeting: hello %1
+  about: about
+  proplan: pro plan
+  language: language
+  change_name: change name
+  logout: logout
+
+date:
+  first_dow: Sun
+  last_dow: Sat
+  today: td
+  yesterday: yd
+
+statistic:
+  first: first
+  las: Last
+
+proplanmodal:
+  title: Go Pro!
+  lead1: Get access to all data to create your own statistics.<br /><small>One simple REST-JSON API call.</small>
+  lead2: Ask your own questions for a more personal touch.
+  lead3: Delete / edit entries to amend errors.
+  contact: Contact us <a href="https://twitter.com/happinessmetric" target="_blank">@happinessmetric</a>
+
+logoutmodal:
+  title: Attention!
+  lead: To come back you need the following URL<br /><b>%1</b>
+  button: Proceed logout!
+

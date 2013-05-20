@@ -5,7 +5,7 @@
     <li class="name">
       <h1>
         <a href="/<%= @account.url %>">
-          hello <%= @account.name %>
+          <%= t.page.greeting @account.name %>
         </a>
       </h1>
     </li>
@@ -16,15 +16,15 @@
     <!-- Left Nav Section -->
     <ul class="left">
       <li class="divider"></li>
-      <li><a href="" data-reveal-id="aboutmodal">About</a></li>
+      <li><a href="" data-reveal-id="aboutmodal"><%= t.page.about %></a></li>
       <li class="divider"></li>
-      <li><a href="" data-reveal-id="proplanmodal">Pro Plan</a></li>
+      <li><a href="" data-reveal-id="proplanmodal"><%= t.page.proplan %></a></li>
     </ul>
 
     <!-- Right Nav Section -->
     <ul class="right">
       <li class="has-dropdown">
-        <a href="" id="">Language</a>
+        <a href="" id=""><%= t.page.language %></a>
         <ul class="dropdown">
           <li><a href="" class="setLanguage" data-language="en">English</a></li>
           <li><a href="" class="setLanguage" data-language="de">Deutsch</a></li>
@@ -34,8 +34,8 @@
       <li class="has-dropdown">
         <a href="/<%= @account.url %>" id="accountname"><%= @account.name %></a>
         <ul class="dropdown">
-          <li><a href="" id="editmodal-link">Change Name</a></li>
-          <li><a href="" id="logoutmodal-link">Logout</a></li>
+          <li><a href="" id="editmodal-link"><%= t.page.change_name %></a></li>
+          <li><a href="" id="logoutmodal-link"><%= t.page.logout %></a></li>
         </ul>
       </li>
     </ul>
