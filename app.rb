@@ -62,6 +62,17 @@ class App < Sinatra::Base
     json data
   end
 
+  get "/:adminurl/raw.csv" do |adminurl|
+    account = Account.first(:adminurl => URI.escape(adminurl))
+    data = account.votes.all
+    csv_string = CSV.generate do |csv|
+      data.each do |row|
+        csv << [row.id, row.created_at.strftime("%F"), row.created_at.strftime("%R"), row.vote]
+      end
+    end
+    csv_string
+  end
+
   get "/texts.json" do
     text = getText(cookies[:text], cookies[:language])
     cookies[:text] = text["id"]
