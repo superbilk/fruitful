@@ -15,14 +15,15 @@ class App < Sinatra::Base
   helpers Sinatra::JSON
   helpers Sinatra::Cookies
 
+  # Routes
+  use Routes
+  use Admin
+
   configure do
+    set :root, File.dirname(__FILE__)
     set :haml, :format => :html5
+    set :cookie_options, :expires => Time.now + 3600*24
     enable :partial_underscores
-    enable :sessions
-    set :session_secret, "43fb3pwgb3gb3"
-    set(:cookie_options) do
-      { :expires => Time.now + 3600*24*90, :expire_after => 2592000 }
-    end
   end
 
   # DataMapper::Logger.new($stdout, :debug)
@@ -41,8 +42,9 @@ class App < Sinatra::Base
   end
 
   before do
+    R18n::I18n.default = 'en'
     cookies[:language] ||= "en"
-    session[:locale] = params[:locale] if params[:locale]
+    R18n.set(cookies[:language])
     @text = getText(cookies[:text], cookies[:language])
   end
 
@@ -54,23 +56,6 @@ class App < Sinatra::Base
   get "/:url/logout" do
     cookies.clear
     redirect to("/")
-  end
-
-  get "/:adminurl/raw.json" do |adminurl|
-    account = Account.first(:adminurl => URI.escape(adminurl))
-    data = account.votes.all
-    json data
-  end
-
-  get "/:adminurl/raw.csv" do |adminurl|
-    account = Account.first(:adminurl => URI.escape(adminurl))
-    data = account.votes.all
-    csv_string = CSV.generate do |csv|
-      data.each do |row|
-        csv << [row.id, row.created_at.strftime("%F"), row.created_at.strftime("%R"), row.vote]
-      end
-    end
-    csv_string
   end
 
   get "/texts.json" do
@@ -111,12 +96,14 @@ class App < Sinatra::Base
     @account = Account.first(:url => URI.escape(url))
     @account.update(:language => URI.escape(params[:language]))
     cookies[:language] = URI.escape(params[:language])
+    R18n.set(URI.escape(params[:language]))
   end
 
   get "/:url" do |url|
     @account = Account.first(:url => URI.escape(url))
     cookies[:account] = URI.escape(url)
     cookies[:language] = @account.language
+    R18n.set(@account.language)
     @account = createAccount(url) if @account.nil?
     haml :index, :layout_engine => :erb
   end
@@ -135,8 +122,9 @@ private
   def createAccount(url=nil)
     cookies.clear
     url ||= PasswordGenerator.new.generate(8)
+    adminurl ||= PasswordGenerator.new.generate(8)
     cookies[:account] = url
-    Account.create(:url => url, :name => url)
+    Account.create(:url => url, :name => url, :adminurl => adminurl)
   end
 
   def tristategraphData(account, limit)

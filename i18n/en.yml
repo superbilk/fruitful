@@ -13,8 +13,8 @@ date:
   yesterday: yd
 
 statistic:
-  first: first
-  las: Last
+  last: Last
+  activity: Activity
 
 proplanmodal:
   title: Go Pro!
@@ -28,3 +28,16 @@ logoutmodal:
   lead: To come back you need the following URL<br /><b>%1</b>
   button: Proceed logout!
 
+editmodal:
+  title: What's your name?
+  button: Save
+
+resultmodal:
+  title: Check.
+  lead: Thank you for your participation.
+
+aboutmodal:
+  title: Track happiness
+  lead1: Easy to set up & easy to use
+  text:  Open this page on a mobile device like an iPod touch or an iPad.</p><p>Place it next to a trafficked place in your office (e.g., front desk, coffee machine) and let people use it.</p><p>There is no step 3</p>
+  lead2: How we use it

@@ -9,15 +9,14 @@
       = @text["negative"]
 
 #resultmodal.reveal-modal
-  %h2 Check.
-  %p.lead Thank you for your participation.
-  %a.close-reveal-modal ×
+  %h2= t.resultmodal.title
+  %p.lead= t.resultmodal.lead
 
 #editmodal.reveal-modal
-  %h2 What's your name?
+  %h2= t.editmodal.title
   %form#editnameform
     %input#editname{:name => "editname", :type => "text", :value => @account ? @account.name : "" }
-    %a.small.button#editsave{:href=>""} Save
+    %a.small.button#editsave{:href=>""}= t.editmodal.button
   %a.close-reveal-modal ×
 
 #logoutmodal.reveal-modal
@@ -36,12 +35,9 @@
   %a.close-reveal-modal ×
 
 #aboutmodal.reveal-modal
-  %h2 Track happiness
-  %p.lead Easy to set up & easy to use
-  %p Open this page on a mobile device like an iPod touch or an iPad.
-  %p Place it next to a trafficked place in your office (e.g., front desk, coffee machine) and let people use it.
-  %p There is no step 3 :)
-  %p.lead
-    How we use it
+  %h2= t.aboutmodal.title
+  %p.lead= t.aboutmodal.lead1
+  %p= t.aboutmodal.text
+  %p.lead= t.aboutmodal.lead2
   %img{:src => "/usecase.png"}
   %a.close-reveal-modal ×

@@ -25,7 +25,7 @@
     <div id="responsivebox" class="large-6 large-centered columns">
       <%= yield %>
       <p>
-        <span class="hiddenchart" style="display: none;">Last </span>
+        <span class="hiddenchart" style="display: none;"><%= t.statistic.last %> </span>
         <span id="tristategraph">Click above and statistics will show up in a few seconds.</span>
         <span id="piecharts" class="pull right hiddenchart" style="display: none;">
           <span id="td-piechart">&nbsp;</span>td
@@ -35,7 +35,7 @@
         </span>
       </p>
       <p class="hiddenchart" style="display: none;">
-        Activity <span id="history-linechart">More statistics will show up in a few seconds.</span>
+        <%= t.statistic.activity %> <span id="history-linechart">More statistics will show up in a few seconds.</span>
 
       </p>
       <p class="hiddenchart" style="display: none;">
